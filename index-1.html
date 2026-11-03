@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>درجات الكويز والكشكول - جميع السكاشن</title>
+<style>
+:root{--bg:#f3f5f9;--card:#fff;--ink:#172033;--muted:#687386;--line:#e5e9f0;--accent:#2457d6;--green:#16845b;--red:#c43d4b;--gold:#a66a08}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif}
+header{background:linear-gradient(120deg,#14264d,#2457d6);color:#fff;padding:28px 18px}
+.wrap{max-width:1200px;margin:auto;padding:0 16px}
+h1{margin:0 0 8px;font-size:clamp(22px,4vw,32px)}
+header p{margin:0;color:#dce6ff}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px auto}
+.stat,.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 4px 16px #15264a0a}
+.stat{padding:15px}.stat small{display:block;color:var(--muted);margin-bottom:7px}.stat strong{font-size:24px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+input,select{font:inherit;padding:11px 13px;border:1px solid #d5dbe6;border-radius:9px;background:#fff;color:var(--ink)}
+input{flex:1;min-width:220px}
+select{min-width:150px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tab{border:1px solid #d7deeb;background:#fff;color:var(--ink);padding:9px 15px;border-radius:9px;cursor:pointer;font:inherit}
+.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.panel{overflow:hidden;margin-bottom:24px}
+.panel-head{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.panel-head h2{font-size:20px;margin:0}
+.count{color:var(--muted);font-size:13px}
+.table-wrap{width:100%;overflow-x:hidden}
+table{width:100%;border-collapse:collapse;table-layout:fixed;min-width:0}
+th,td{padding:10px 9px;text-align:right;border-bottom:1px solid var(--line);white-space:normal;overflow-wrap:anywhere}
+th{background:#f8faff;color:#526078;font-size:13px}
+tbody tr:hover{background:#f7f9ff}
+td.num{text-align:center;font-variant-numeric:tabular-nums}
+.badge{display:inline-block;padding:4px 9px;border-radius:20px;font-size:12px;font-weight:bold}
+.absent{background:#fff0f1;color:var(--red)}
+.present{background:#eaf7f1;color:var(--green)}
+.zero{color:var(--muted)}
+.total{font-weight:bold;color:var(--accent)}
+.footer{color:var(--muted);font-size:13px;padding:0 0 28px}
+.empty{text-align:center;padding:30px;color:var(--muted)}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.stat strong{font-size:20px}.panel-head h2{font-size:17px}}
+@media print{body{background:#fff}.controls,.tabs{display:none}.panel,.stat{box-shadow:none;break-inside:avoid}header{background:#fff;color:#000;padding:10px 0}header p{color:#333}.wrap{max-width:none}.panel{border:1px solid #aaa}}
+
+/* Smooth, forgiving Arabic name search */
+#search{min-width:240px;transition:border-color .2s,box-shadow .2s}
+#search:focus{border-color:var(--accent);box-shadow:0 0 0 4px #2457d61a;outline:none}
+#clearSearch{white-space:nowrap}
+#searchStatus{min-height:20px}
+#tables .panel{animation:searchIn .18s ease both}
+@keyframes searchIn{from{opacity:.45;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+
+@media(max-width:700px){
+  .table-wrap{overflow-x:hidden}
+  table{width:100%;min-width:0;table-layout:fixed;font-size:12px}
+  th,td{padding:8px 4px;white-space:normal;overflow-wrap:anywhere;line-height:1.45}
+  th{font-size:10px}
+  th:nth-child(1),td:nth-child(1){width:7%;text-align:center}
+  th:nth-child(2),td:nth-child(2){width:35%}
+  th:nth-child(3),td:nth-child(3){width:14%;text-align:center}
+  th:nth-child(4),td:nth-child(4){width:15%;text-align:center}
+  th:nth-child(5),td:nth-child(5){width:15%;text-align:center}
+  th:nth-child(6),td:nth-child(6){width:14%;text-align:center}
+  .panel-head{padding:12px 13px}
+}
+
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1>سجل درجات الكويز والكشكول</h1>
+<p>جميع السكاشن — الكويز من 8 درجات، والكشكول من درجتين</p>
+</div></header>
+<main class="wrap">
+<section class="stats">
+<div class="stat"><small>إجمالي الطلاب</small><strong id="students">0</strong></div>
+<div class="stat"><small>عدد السكاشن</small><strong id="sections">6</strong></div>
+<div class="stat"><small>حالات الغياب</small><strong id="absences">0</strong></div>
+<div class="stat"><small>متوسط الدرجة الكلية</small><strong id="average">—</strong></div>
+</section>
+<div class="controls">
+<input id="search" type="search" placeholder="اكتب اسم الطالب أو جزءًا منه..." aria-label="ابحث باسم الطالب" autocomplete="off">
+<button class="tab" id="clearSearch" type="button" aria-label="مسح البحث">مسح البحث</button>
+<select id="sectionFilter" aria-label="اختر السكشن">
+<option value="all">كل السكاشن</option>
+<option value="سكشن ٣">سكشن ٣</option><option value="سكشن ٤">سكشن ٤</option>
+<option value="سكشن ١٩">سكشن ١٩</option><option value="سكشن ٢٠">سكشن ٢٠</option>
+<option value="سكشن ٢٧">سكشن ٢٧</option><option value="سكشن ٢٨">سكشن ٢٨</option>
+</select>
+<button class="tab" onclick="window.print()">طباعة / حفظ PDF</button>
+</div>
+<div class="tabs" id="tabs">
+<button class="tab active" data-section="all">كل السكاشن</button>
+<button class="tab" data-section="سكشن ٣">٣</button><button class="tab" data-section="سكشن ٤">٤</button>
+<button class="tab" data-section="سكشن ١٩">١٩</button><button class="tab" data-section="سكشن ٢٠">٢٠</button>
+<button class="tab" data-section="سكشن ٢٧">٢٧</button><button class="tab" data-section="سكشن ٢٨">٢٨</button>
+</div>
+<div id="searchStatus" aria-live="polite" style="color:var(--muted);font-size:13px;margin:0 2px 10px"></div>
+<div id="tables" aria-live="polite"></div>
+<div class="footer">ملاحظة: «غياب» تُعرض كحالة غياب ولا تُحسب صفرًا في متوسط الكويز. الدرجة الكلية للطالب الحاضر = الكويز + الكشكول من 10.</div>
+</main>
+<script>
+const data = {
+"سكشن ٣": [
+["احمد فوزى احمد حامد","غ",0],["احمد محمد ابراهيم الغمراوى",5.5,2],["احمد محمد احمد الكومي",3,0],["احمد محمد السيد نبيه",4.5,2],["احمد محمد صالح بكير",1,2],["احمد محمد عبدالعظيم عبدالله","غ",0],["احمد محمد عبدالله السوداني",3.5,2],["احمد محمد فاروق منصور",4.5,2],["احمد محمد محمود ابراهيم شاكر",7,2],["احمد محمد محمود بركات",8,2],["احمد محمد مصطفى عوض الله",4,0],["احمد محمود عيد عبدالبر",4.5,2],["احمد محمود فتحى الشحات","غ",0],["احمد مصطفى عبدالواحد عفيفى",0,0],["احمد هانى سعيد اسماعيل",6.5,2],["احمد وائل سيد امام",6.5,2],["احمد محمد عبدالمنعم عبدالكريم",6.5,2],["احمد وائل احمد عبد الحميد",2.5,2],["احمد وليد كمال","غ",0],["احمد هاني سمير",1,2]
+],
+"سكشن ٤": [
+["احمد وائل فاروق",7.5,2],["احمد وليد محمد حسن",8,2],["احمد ياسر توفيق","غ",0],["احمد ياسر قاسم","غ",0],["ادم محمد كمال",3,2],["ادم هانى جمعه",5,2],["ادهم رضا محى الدين",2,2],["ادهم عمرو محمد",3.5,2],["ادهم مجدى محمد",3.5,2],["ادهم محمد سالم","غ",0],["ادهم محمد شافعى",6.5,2],["ارسانى بيشوى حنا",3,0],["ارسانى سمير رمزى",7,2],["ارسانيوس جميل مكرم",8,2],["اسامة جاسر عبدالتواب","غ",0],["اسامه محمد سعيد بكير","غ",0],["ادم هشام علي","غ",0],["ادهم خالد احمد علي","غ",0],["آدم محمد عبد الباسط","غ",0]
+],
+"سكشن ١٩": [
+["كيرلس ماجد لمعى",5.5,2],["كيرلس وجدى فاروق",7.5,2],["مارتينا بشرى سامى",2,2],["مارك افرايم مسعد",6,2],["ماركو جورج يوسف",5.5,2],["مارينا جورج عبد الشهيد",5.5,2],["مارينا مجدى حبيب",4.5,2],["مازن السيد ابراهيم",6,2],["مازن حاتم جمال",4.5,0],["مازن محمد النجاتى","غ",0],["مازن محمد على الصادق",2,2],["مازن محمد محمود عبدالرحيم",5,2],["ماهر وليد ماهر",5.5,2],["محمد احمد ابراهيم تعلب","غ",0],["محمد احمد السيد احمد على","غ",0],["محمد احمد زكريا الشرقاوى","غ",0],["لوجينا محمد بهجت","غ",0],["مارتن نتعي مسعود","غ",0],["ماري بطرس غالي",6.5,2],["مازن اسامه سعيد","غ",0],["مالك محمد السيد عجيزه","غ",0]
+],
+"سكشن ٢٠": [
+["محمد احمد سيد درويش",4.5,2],["محمد احمد صابر مكاوى",3.5,2],["محمد احمد عواد",2.5,0],["محمد احمد كمال سلطين",6.5,2],["محمد اشرف محروس","غ",0],["محمد اشرف مكرم",3.5,2],["محمد السيد كامل الزير","غ",0],["محمد السيد لطفى حبيب",3,2],["محمد السيد محمد سعيد الالفى",4.5,2],["محمد السيد محمد عبدالنبى",8,2],["محمد امير محمد امين",2,2],["محمد ايمن رشاد شعت",6.5,2],["محمد ايمن عبدالمعز البربري",1,0],["محمد برهوم سعيد",6.5,2],["محمد جمال عبدالمنعم","غ",0],["محمد حاتم عبدالرحمن",7,2],["محمد السيد محمد السيد حميده",0,2],["محمد حسن احمد جمعه",0,2],["محمد احمد محمد على",0.5,2],["محمد اسامه السيد صيام",4,2],["محمد ايهاب محمد قاسم","غ",0],["محمد اشرف فضل",4.5,2]
+],
+"سكشن ٢٧": [
+["موسى احمد موسى سعد",0,0],["مؤمن السيد سالمان","غ",0],["مؤمن مصطفى ايوب",0,0],["ميريام سامح سامى",7.5,2],["مينا سمير شكرى",7.5,2],["مينا ميشيل شهدى",3,2],["نادين عبدالفتاح",4,2],["ندى حسام عبدالبر",2.5,0],["ندى سعيد الفران",7,2],["ندى محمود صالح",8,2],["نصر عادل نصر",0,0],["هاجر تامر عبدالفتاح",8,2],["هاجر محمود السيد","غ",0],["هبه محمد زكى",5,2],["هدي محمد ابراهيم",5.5,2],["ندى ناصر كامل","غ",0],["نورهان السباعى",2,0],["نورهان شعبان سالم",1.5,2],["نورهان عبدالنبى فرج",2,2],["هبة احمد جمال",1,2],["ميريم مجدى فهمى","غ",0]
+],
+"سكشن ٢٨": [
+["هنا ايمن محمد","غ",0],["هنا بهاء الدين",4.5,2],["هند اسامه حسن",7,2],["ياسمين جمال محمد",1,2],["ياسمين عبدالقادر",3,2],["ياسين بهاء الدين","غ",0],["ياسين محمد كمال",6,2],["ياسين يحى امام",3.5,2],["يحى زكريا",0.5,2],["يحيى اشرف عبدالعظيم",4.5,2],["يحيى صبرى محمد","غ",0],["يحيى محمد فاروق",2,2],["يحيى هشام محمد",4,2],["يزيد محمد الماظ",0,2],["يس محمد عبدالفتاح","غ",0],["يمنى سيد حجازى",6,2],["ياسمين رامز حسنى","غ",0],["ياسين محمد انيس","غ",0],["ياسين محمد فتحي","غ",0],["ياسين هشام فرج","غ",0]
+]
+};
+const all = Object.entries(data).flatMap(([section,rows])=>rows.map((r,i)=>({section,n:i+1,name:r[0],quiz:r[1],notebook:r[2]})));
+const fmt = n => Number.isInteger(n) ? String(n) : n.toFixed(1);
+document.getElementById('students').textContent=all.length;
+document.getElementById('sections').textContent=Object.keys(data).length;
+document.getElementById('absences').textContent=all.filter(x=>x.quiz==="غ").length;
+const present=all.filter(x=>x.quiz!=="غ");
+document.getElementById('average').textContent=fmt(present.reduce((s,x)=>s+x.quiz+x.notebook,0)/present.length)+"/10";
+let active='all';
+// توحيد أشكال الحروف العربية حتى يعمل البحث رغم اختلاف كتابة الهمزات والياء والتشكيل.
+function normalizeArabic(value){
+ return String(value)
+  .toLocaleLowerCase('ar')
+  .normalize('NFD')
+  .replace(/[\\u064B-\\u065F\\u0670]/g,'') // التشكيل
+  .replace(/\\u0640/g,'')                    // التطويل
+  .replace(/[أإآٱ]/g,'ا')
+  .replace(/ى/g,'ي')
+  .replace(/ة/g,'ه')
+  .replace(/[\\s\\u200f\\u200e]+/g,' ')
+  .trim();
+}
+function matchesName(name, query){
+ if(!query) return true;
+ const nameParts=normalizeArabic(name);
+ // كل كلمة في البحث لازم تكون موجودة، حتى لو المستخدم كتب الاسم بترتيب مختلف.
+ return normalizeArabic(query).split(' ').filter(Boolean).every(part=>nameParts.includes(part));
+}
+function render(){
+ const q=document.getElementById('search').value.trim();
+ const sec=document.getElementById('sectionFilter').value;
+ const target=active==='all'?Object.keys(data):[active];
+ const sections=target.filter(s=>sec==='all'||s===sec);
+ let out='';
+ let shown=0;
+ sections.forEach(section=>{
+  const rows=all.filter(x=>x.section===section && matchesName(x.name,q));
+  if(!rows.length)return;
+  shown+=rows.length;
+  out+=`<section class="panel"><div class="panel-head"><h2>${section}</h2><span class="count">${rows.length} طالب معروض</span></div><div class="table-wrap"><table><thead><tr><th>#</th><th>اسم الطالب</th><th>الكويز / 8</th><th>الكشكول / 2</th><th>الإجمالي / 10</th><th>الحالة</th></tr></thead><tbody>`;
+  rows.forEach(x=>{
+   const absent=x.quiz==='غ';
+   out+=`<tr><td class="num">${x.n}</td><td>${x.name}</td><td class="num">${absent?'<span class="badge absent">غياب</span>':fmt(x.quiz)}</td><td class="num">${fmt(x.notebook)}</td><td class="num total">${absent?'—':fmt(x.quiz+x.notebook)}</td><td>${absent?'<span class="badge absent">غائب</span>':'<span class="badge present">حاضر</span>'}</td></tr>`;
+  });
+  out+='</tbody></table></div></section>';
+ });
+ document.getElementById('tables').innerHTML=out||'<div class="panel empty">لا توجد نتائج مطابقة للبحث. جرّب كتابة جزء آخر من الاسم.</div>';
+ document.getElementById('searchStatus').textContent=q ? `نتائج البحث: ${shown} طالب` : `عرض ${shown} طالب`;
+}
+const searchInput=document.getElementById('search');
+let searchTimer;
+searchInput.addEventListener('input',()=>{
+ clearTimeout(searchTimer);
+ searchTimer=setTimeout(render,90);
+});
+searchInput.addEventListener('keydown',e=>{
+ if(e.key==='Escape'){searchInput.value='';render();}
+});
+document.getElementById('clearSearch').addEventListener('click',()=>{
+ searchInput.value='';
+ searchInput.focus();
+ render();
+});
+document.getElementById('sectionFilter').addEventListener('change',e=>{active='all';document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.section==='all'));render()});
+document.querySelectorAll('.tab[data-section]').forEach(b=>b.addEventListener('click',()=>{
+ active=b.dataset.section;document.getElementById('sectionFilter').value='all';
+ document.querySelectorAll('.tab[data-section]').forEach(t=>t.classList.toggle('active',t===b));render();
+}));
+render();
+</script>
+</body></html>
