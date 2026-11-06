@@ -7,61 +7,43 @@
 <title>تقييم الشرح</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;padding:28px 16px;font-family:Arial,Tahoma,sans-serif;background:#f3f6fa;color:#172536}
-.wrap{max-width:680px;margin:32px auto}
+body{margin:0;padding:24px 16px;font-family:Arial,Tahoma,sans-serif;background:#f3f6fa;color:#172536}
+.wrap{max-width:680px;margin:35px auto}
 form{background:#fff;padding:28px;border-radius:18px;box-shadow:0 12px 35px #18324a12}
-.field{margin-bottom:25px}
-label{display:block;font-weight:800;font-size:21px;line-height:1.6;margin-bottom:11px;color:#12304a}
-textarea{display:block;width:100%;min-height:125px;padding:14px;border:1px solid #ccd6e0;border-radius:10px;font:16px/1.7 Arial,Tahoma,sans-serif;resize:vertical;outline:none}
+label{display:block;font-weight:900;font-size:25px;line-height:1.8;margin-bottom:18px;color:#12304a}
+textarea{display:block;width:100%;min-height:230px;padding:15px;border:1px solid #ccd6e0;border-radius:10px;font:17px/1.8 Arial,Tahoma,sans-serif;resize:vertical;outline:none}
 textarea:focus{border-color:#1769aa;box-shadow:0 0 0 3px #1769aa18}
-button{width:100%;padding:15px;border:0;border-radius:10px;background:#1769aa;color:#fff;font-size:17px;font-weight:700;cursor:pointer}
+button{width:100%;margin-top:18px;padding:15px;border:0;border-radius:10px;background:#1769aa;color:#fff;font-size:18px;font-weight:800;cursor:pointer}
 button:disabled{opacity:.6;cursor:wait}
 #message{margin-top:15px;text-align:center;font-weight:700;line-height:1.7}
-.privacy{text-align:center;color:#718092;font-size:12px;margin:17px 0 0}
+.privacy{text-align:center;color:#718092;font-size:13px;margin:17px 0 0}
 </style>
 </head>
 <body>
 <div class="wrap">
 <form id="form">
-<div class="field">
-<label for="strengths">قول الميزات</label>
-<textarea id="strengths" maxlength="1500" placeholder="اكتب هنا..."></textarea>
-</div>
-<div class="field">
-<label for="weaknesses">والعيوب</label>
-<textarea id="weaknesses" maxlength="1500" placeholder="اكتب هنا..."></textarea>
-</div>
-<div class="field">
-<label for="improvements">وازاي نخلي الشرح افضل</label>
-<textarea id="improvements" maxlength="1500" placeholder="اكتب هنا..."></textarea>
-</div>
-<button id="send" type="submit">إرسال التقييم</button>
+<label for="feedback">قول الميزات والعيوب وازاي نخلي الشرح افضل</label>
+<textarea id="feedback" maxlength="3000" placeholder="اكتب رأيك هنا..."></textarea>
+<button id="send" type="submit">إرسال</button>
 <div id="message" role="status" aria-live="polite"></div>
-<p class="privacy">لن نطلب اسمك أو بريدك الإلكتروني.</p>
+<p class="privacy">بدون اسم أو بريد إلكتروني.</p>
 </form>
 </div>
 <script>
 const API="https://zyswxsopfkcznpbtabnh.supabase.co/functions/v1/student-feedback";
-const form=document.getElementById("form"),button=document.getElementById("send"),message=document.getElementById("message");
+const form=document.getElementById("form"),field=document.getElementById("feedback"),button=document.getElementById("send"),message=document.getElementById("message");
 form.addEventListener("submit",async e=>{
  e.preventDefault();
- const strengths=document.getElementById("strengths").value.trim();
- const weaknesses=document.getElementById("weaknesses").value.trim();
- const improvements=document.getElementById("improvements").value.trim();
- if(!strengths&&!weaknesses&&!improvements){message.textContent="اكتب إجابة واحدة على الأقل قبل الإرسال.";return}
- const feedback=[
-  "قول الميزات:\n"+(strengths||"لم تتم الإجابة"),
-  "والعيوب:\n"+(weaknesses||"لم تتم الإجابة"),
-  "وازاي نخلي الشرح افضل:\n"+(improvements||"لم تتم الإجابة")
- ].join("\n\n--------------------\n\n");
- button.disabled=true;button.textContent="جارٍ إرسال التقييم...";
+ const feedback=field.value.trim();
+ if(feedback.length<3){message.textContent="اكتب رأيك قبل الإرسال.";return}
+ button.disabled=true;button.textContent="جارٍ الإرسال...";
  try{
   const response=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({feedback})});
   const data=await response.json();
   if(!response.ok)throw new Error(data.error||"تعذر الإرسال");
-  form.reset();message.textContent="تم إرسال تقييمك بنجاح. شكرًا لمشاركتك ❤️";
- }catch(error){message.textContent="تعذر إرسال التقييم حاليًا. حاول مرة أخرى بعد قليل."}
- finally{button.disabled=false;button.textContent="إرسال التقييم"}
+  form.reset();message.textContent="تم إرسال رأيك بنجاح، شكرًا لك ❤️";
+ }catch(error){message.textContent="تعذر الإرسال حاليًا. حاول مرة أخرى."}
+ finally{button.disabled=false;button.textContent="إرسال"}
 });
 </script>
 </body>
