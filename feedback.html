@@ -3,44 +3,76 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>رأيك يهمنا</title>
+<meta name="theme-color" content="#12304a">
+<title>تقييم الشرح | رأيك يهمنا</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;padding:24px;font-family:Arial,sans-serif;background:#f5f6f8;color:#222}
-main{max-width:520px;margin:70px auto;background:#fff;padding:28px;border-radius:12px}
-h2{margin:0 0 10px;font-size:24px}
-p{color:#666;line-height:1.7;margin:0 0 22px}
-textarea{width:100%;min-height:180px;padding:14px;border:1px solid #ccc;border-radius:8px;font:16px Arial;resize:vertical}
-button{width:100%;margin-top:14px;padding:13px;border:0;border-radius:8px;background:#1769d2;color:white;font-size:16px;cursor:pointer}
-button:disabled{opacity:.6}
-#message{margin-top:14px;font-size:14px}
+body{margin:0;padding:28px 16px;font-family:Arial,Tahoma,sans-serif;background:#f3f6fa;color:#172536}
+.wrap{max-width:680px;margin:32px auto}
+header{background:linear-gradient(135deg,#12304a,#1769aa);color:#fff;padding:30px 26px;border-radius:18px 18px 0 0}
+header h1{margin:0 0 10px;font-size:27px}
+header p{margin:0;line-height:1.8;color:#e4eef8}
+form{background:#fff;padding:26px;border-radius:0 0 18px 18px;box-shadow:0 12px 35px #18324a12}
+.field{margin-bottom:23px}
+label{display:block;font-weight:700;font-size:17px;margin-bottom:9px}
+.hint{font-size:13px;color:#667789;margin:0 0 10px}
+textarea{display:block;width:100%;min-height:112px;padding:14px;border:1px solid #ccd6e0;border-radius:10px;font:16px/1.7 Arial,Tahoma,sans-serif;resize:vertical;outline:none}
+textarea:focus{border-color:#1769aa;box-shadow:0 0 0 3px #1769aa18}
+button{width:100%;padding:15px;border:0;border-radius:10px;background:#1769aa;color:#fff;font-size:17px;font-weight:700;cursor:pointer}
+button:disabled{opacity:.6;cursor:wait}
+#message{margin-top:15px;text-align:center;font-weight:700;line-height:1.7}
+.privacy{text-align:center;color:#718092;font-size:12px;margin:17px 0 0}
 </style>
 </head>
 <body>
-<main>
-<h2>رأيك يهمنا</h2>
-<p>اكتب رأيك أو اقتراحك عن الشرح. إرسال بدون اسم أو إيميل.</p>
+<div class="wrap">
+<header>
+<h1>رأيك يهمنا 🌟</h1>
+<p>هدفنا نطوّر الشرح ونخلي التجربة التعليمية أفضل. شاركنا رأيك بصراحة؛ إجاباتك بدون اسم أو بريد إلكتروني.</p>
+</header>
 <form id="form">
-<textarea id="feedback" maxlength="3000" minlength="3" required placeholder="اكتب رأيك هنا..."></textarea>
-<button id="send" type="submit">إرسال</button>
+<div class="field">
+<label for="strengths">1. إيه مميزات الشرح؟</label>
+<p class="hint">إيه أكتر حاجة استفدت منها أو حابب تستمر؟</p>
+<textarea id="strengths" maxlength="1500" placeholder="اكتب مميزات الشرح هنا..."></textarea>
+</div>
+<div class="field">
+<label for="weaknesses">2. إيه العيوب أو الحاجات اللي محتاجة تتحسن؟</label>
+<p class="hint">ممكن تذكر أي نقطة مش واضحة أو صعبة أو محتاجة وقت أكتر.</p>
+<textarea id="weaknesses" maxlength="1500" placeholder="اكتب ملاحظاتك بصراحة..."></textarea>
+</div>
+<div class="field">
+<label for="improvements">3. إزاي نخلي الشرح أفضل؟</label>
+<p class="hint">اقترح طريقة شرح، أمثلة، مسائل، مراجعات أو أي فكرة تساعدك.</p>
+<textarea id="improvements" maxlength="1500" placeholder="اكتب اقتراحاتك لتطوير الشرح..."></textarea>
+</div>
+<button id="send" type="submit">إرسال التقييم</button>
+<div id="message" role="status" aria-live="polite"></div>
+<p class="privacy">لن نطلب اسمك أو بريدك الإلكتروني. شكرًا لمساعدتنا على التطوير.</p>
 </form>
-<div id="message" role="status"></div>
-</main>
+</div>
 <script>
 const API="https://zyswxsopfkcznpbtabnh.supabase.co/functions/v1/student-feedback";
-const form=document.getElementById("form"),field=document.getElementById("feedback"),button=document.getElementById("send"),message=document.getElementById("message");
+const form=document.getElementById("form"),button=document.getElementById("send"),message=document.getElementById("message");
 form.addEventListener("submit",async e=>{
  e.preventDefault();
- const feedback=field.value.trim();
- if(feedback.length<3){message.textContent="اكتب 3 أحرف على الأقل.";return}
- button.disabled=true;button.textContent="جارٍ الإرسال...";
+ const strengths=document.getElementById("strengths").value.trim();
+ const weaknesses=document.getElementById("weaknesses").value.trim();
+ const improvements=document.getElementById("improvements").value.trim();
+ if(!strengths&&!weaknesses&&!improvements){message.textContent="اكتب إجابة واحدة على الأقل قبل الإرسال.";return}
+ const feedback=[
+  "مميزات الشرح:\n"+(strengths||"لم تتم الإجابة"),
+  "العيوب أو ما يحتاج إلى تحسين:\n"+(weaknesses||"لم تتم الإجابة"),
+  "اقتراحات تطوير الشرح:\n"+(improvements||"لم تتم الإجابة")
+ ].join("\n\n--------------------\n\n");
+ button.disabled=true;button.textContent="جارٍ إرسال التقييم...";
  try{
   const response=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({feedback})});
   const data=await response.json();
   if(!response.ok)throw new Error(data.error||"تعذر الإرسال");
-  form.reset();message.textContent="تم إرسال رأيك، شكرًا لك.";
- }catch(error){message.textContent="حصلت مشكلة أثناء الإرسال. حاول مرة أخرى."}
- finally{button.disabled=false;button.textContent="إرسال"}
+  form.reset();message.textContent="تم إرسال تقييمك بنجاح. شكرًا لمشاركتك ❤️";
+ }catch(error){message.textContent="تعذر إرسال التقييم حاليًا. حاول مرة أخرى بعد قليل."}
+ finally{button.disabled=false;button.textContent="إرسال التقييم"}
 });
 </script>
 </body>
