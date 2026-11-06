@@ -26,8 +26,13 @@ button{width:100%;margin-top:22px;border:0;border-radius:12px;background:linear-
 </div>
 <button id="submit" type="submit">متابعة</button>
 </form><div id="message" aria-live="polite"></div>
-<div id="result" class="result"><small>درجة أعمال السنة (Work)</small><div class="score"><span id="score"></span><span style="font-size:20px"> / 10</span></div><div class="student" id="student"></div></div>
-<p class="note">تظهر درجة Work فقط من 10 درجات. تأكد من صحة بياناتك قبل الاستعلام.</p>
+<div id="result" class="result"><div class="student" id="student"></div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px">
+<div><small>Quiz</small><div class="score" style="font-size:30px" id="quiz"></div></div>
+<div><small>الكشكول</small><div class="score" style="font-size:30px" id="notebook"></div></div>
+<div><small>المجموع</small><div class="score" style="font-size:30px" id="total"></div></div>
+</div></div>
+<p class="note">تظهر درجات Quiz والكشكول والمجموع فقط. تأكد من صحة بياناتك قبل الاستعلام.</p>
 </section></main>
 <script>
 const API="https://zyswxsopfkcznpbtabnh.supabase.co/functions/v1/student-result";
@@ -43,7 +48,9 @@ form.addEventListener("submit",async e=>{
  try{
   const res=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:document.querySelector("#password").value,name:document.querySelector("#name").value,section:document.querySelector("#section").value,serial:document.querySelector("#serial").value})});
   const data=await res.json();if(!res.ok)throw new Error(data.error||"تعذر العثور على النتيجة");
-  document.querySelector("#score").textContent=data.work===null?"غير مرصودة":data.work;
+  document.querySelector("#quiz").textContent=data.quiz;
+  document.querySelector("#notebook").textContent=data.notebook;
+  document.querySelector("#total").textContent=data.total;
   document.querySelector("#student").textContent=data.name;result.style.display="block";
  }catch(err){msg.className="error";msg.textContent=err.message}
  finally{btn.disabled=false;btn.textContent="استعلام عن الدرجة"}
