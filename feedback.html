@@ -1,36 +1,47 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#081321">
-<title>رأيك يهمنا | تقييم الشرح</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>رأيك يهمنا</title>
 <style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:24px 16px;display:grid;place-items:center;background:radial-gradient(ellipse at 50% -10%,#1e4964,transparent 50%),#07111f;color:#f4f8fc;font-family:Cairo,sans-serif}.wrap{width:min(100%,560px)}header{text-align:center;margin-bottom:22px}.logo{width:64px;height:64px;border-radius:20px;margin:auto auto 12px;display:grid;place-items:center;background:linear-gradient(145deg,#65e6ca,#2999a6);color:#06232c;font-size:30px;font-weight:900}h1{font-size:27px;margin:8px 0 4px;font-weight:900}header p{margin:0;color:#9eb1c7;font-size:13px}.card{background:linear-gradient(145deg,#14283d,#0d1a2b);border:1px solid #2b465e;border-radius:24px;padding:26px;box-shadow:0 24px 80px #0008}.privacy{border:1px solid #28665f;background:#103a3a66;color:#b9e9dd;border-radius:13px;padding:12px 14px;font-size:12px;line-height:1.9;margin-bottom:20px}label{display:block;margin:0 0 9px;font-weight:800;font-size:14px}textarea{width:100%;min-height:210px;resize:vertical;background:#091727;color:#f7fbff;border:1px solid #35516a;border-radius:14px;padding:15px;font:500 14px Cairo;outline:none;line-height:1.9}textarea:focus{border-color:#55e3c2;box-shadow:0 0 0 3px #55e3c21c}textarea::placeholder{color:#71869d}.counter{text-align:left;color:#8298ae;font-size:11px;margin-top:6px}.primary{width:100%;margin-top:18px;border:0;border-radius:14px;background:linear-gradient(100deg,#50dfbd,#70d9e7);color:#06252a;padding:14px;font:900 15px Cairo;cursor:pointer}.primary:disabled{opacity:.6;cursor:wait}.message{display:none;margin-top:15px;padding:12px;border-radius:12px;font-size:13px}.success{display:block;background:#103a32;color:#aaf4d7;border:1px solid #286c58}.error{display:block;background:#5a202b55;color:#ffc0c5;border:1px solid #a74758}.hp{position:absolute;right:-9999px}.footer{text-align:center;color:#617991;font-size:10px;margin-top:15px}
-</style></head>
-<body><main class="wrap">
-<header><div class="logo">✎</div><h1>رأيك يهمنا</h1><p>شاركنا رأيك في الشرح وساعدنا نطوّره</p></header>
-<section class="card">
-<div class="privacy">🔒 اكتب رأيك بكل حرية. لا نطلب اسمك أو بريدك الإلكتروني، ويتم إرسال ملاحظتك دون إدخال بيانات شخصية.</div>
-<form id="feedbackForm">
-<label for="feedback">اكتب رأيك أو اقتراحك هنا</label>
-<textarea id="feedback" maxlength="3000" minlength="3" required placeholder="إيه رأيك في طريقة الشرح؟ إيه اللي عجبك؟ وإيه اللي محتاج يتحسن؟ اكتب براحتك..."></textarea>
-<div class="counter"><span id="count">0</span> / 3000 حرف</div>
-<input class="hp" type="text" name="website" id="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-<button class="primary" id="send" type="submit">إرسال الرأي ←</button>
-</form><div id="message" class="message" role="status" aria-live="polite"></div>
-</section><div class="footer">شكرًا لمشاركتك ❤️</div>
+*{box-sizing:border-box}
+body{margin:0;padding:24px;font-family:Arial,sans-serif;background:#f5f6f8;color:#222}
+main{max-width:520px;margin:70px auto;background:#fff;padding:28px;border-radius:12px}
+h2{margin:0 0 10px;font-size:24px}
+p{color:#666;line-height:1.7;margin:0 0 22px}
+textarea{width:100%;min-height:180px;padding:14px;border:1px solid #ccc;border-radius:8px;font:16px Arial;resize:vertical}
+button{width:100%;margin-top:14px;padding:13px;border:0;border-radius:8px;background:#1769d2;color:white;font-size:16px;cursor:pointer}
+button:disabled{opacity:.6}
+#message{margin-top:14px;font-size:14px}
+</style>
+</head>
+<body>
+<main>
+<h2>رأيك يهمنا</h2>
+<p>اكتب رأيك أو اقتراحك عن الشرح. إرسال بدون اسم أو إيميل.</p>
+<form id="form">
+<textarea id="feedback" maxlength="3000" minlength="3" required placeholder="اكتب رأيك هنا..."></textarea>
+<button id="send" type="submit">إرسال</button>
+</form>
+<div id="message" role="status"></div>
 </main>
 <script>
 const API="https://zyswxsopfkcznpbtabnh.supabase.co/functions/v1/student-feedback";
-const form=document.querySelector("#feedbackForm"),field=document.querySelector("#feedback"),btn=document.querySelector("#send"),msg=document.querySelector("#message");
-field.addEventListener("input",()=>document.querySelector("#count").textContent=field.value.length);
-form.addEventListener("submit",async e=>{e.preventDefault();msg.className="message";msg.textContent="";
-const feedback=field.value.trim();if(feedback.length<3){msg.classList.add("error");msg.textContent="اكتب رأيك في 3 أحرف على الأقل.";return}
-btn.disabled=true;btn.textContent="جارٍ إرسال رأيك...";
-try{const r=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({feedback,website:document.querySelector("#website").value})});const d=await r.json();if(!r.ok)throw new Error(d.error||"تعذر الإرسال");
-form.reset();document.querySelector("#count").textContent="0";msg.classList.add("success");msg.textContent="وصلنا رأيك، شكرًا لمشاركتك! ❤️";
-}catch(err){msg.classList.add("error");msg.textContent=err.message}
-finally{btn.disabled=false;btn.textContent="إرسال الرأي ←"}
+const form=document.getElementById("form"),field=document.getElementById("feedback"),button=document.getElementById("send"),message=document.getElementById("message");
+form.addEventListener("submit",async e=>{
+ e.preventDefault();
+ const feedback=field.value.trim();
+ if(feedback.length<3){message.textContent="اكتب 3 أحرف على الأقل.";return}
+ button.disabled=true;button.textContent="جارٍ الإرسال...";
+ try{
+  const response=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({feedback})});
+  const data=await response.json();
+  if(!response.ok)throw new Error(data.error||"تعذر الإرسال");
+  form.reset();message.textContent="تم إرسال رأيك، شكرًا لك.";
+ }catch(error){message.textContent="حصلت مشكلة أثناء الإرسال. حاول مرة أخرى."}
+ finally{button.disabled=false;button.textContent="إرسال"}
 });
-</script></body></html>
+</script>
+</body>
+</html>
