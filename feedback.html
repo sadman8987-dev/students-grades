@@ -11,7 +11,7 @@ body{margin:0;padding:24px 16px;font-family:Arial,Tahoma,sans-serif;background:#
 .wrap{max-width:680px;margin:35px auto}
 form{background:#fff;padding:28px;border-radius:18px;box-shadow:0 12px 35px #18324a12}
 label{display:block;font-weight:900;font-size:25px;line-height:1.8;margin-bottom:18px;color:#12304a}
-textarea{display:block;width:100%;min-height:230px;padding:15px;border:1px solid #ccd6e0;border-radius:10px;font:17px/1.8 Arial,Tahoma,sans-serif;resize:vertical;outline:none}
+textarea{display:block;width:100%;min-height:260px;padding:15px;border:1px solid #ccd6e0;border-radius:10px;font:17px/1.8 Arial,Tahoma,sans-serif;resize:vertical;outline:none}
 textarea:focus{border-color:#1769aa;box-shadow:0 0 0 3px #1769aa18}
 button{width:100%;margin-top:18px;padding:15px;border:0;border-radius:10px;background:#1769aa;color:#fff;font-size:18px;font-weight:800;cursor:pointer}
 button:disabled{opacity:.6;cursor:wait}
@@ -22,8 +22,8 @@ button:disabled{opacity:.6;cursor:wait}
 <body>
 <div class="wrap">
 <form id="form">
-<label for="feedback">قول الميزات والعيوب وازاي نخلي الشرح افضل</label>
-<textarea id="feedback" maxlength="3000" placeholder="اكتب رأيك هنا..."></textarea>
+<label for="single-answer">قول الميزات والعيوب وازاي نخلي الشرح افضل</label>
+<textarea id="single-answer" maxlength="3000" minlength="3" placeholder="اكتب رأيك كله هنا..." required></textarea>
 <button id="send" type="submit">إرسال</button>
 <div id="message" role="status" aria-live="polite"></div>
 <p class="privacy">بدون اسم أو بريد إلكتروني.</p>
@@ -31,7 +31,7 @@ button:disabled{opacity:.6;cursor:wait}
 </div>
 <script>
 const API="https://zyswxsopfkcznpbtabnh.supabase.co/functions/v1/student-feedback";
-const form=document.getElementById("form"),field=document.getElementById("feedback"),button=document.getElementById("send"),message=document.getElementById("message");
+const form=document.getElementById("form"),field=document.getElementById("single-answer"),button=document.getElementById("send"),message=document.getElementById("message");
 form.addEventListener("submit",async e=>{
  e.preventDefault();
  const feedback=field.value.trim();
