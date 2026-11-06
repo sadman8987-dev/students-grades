@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101827"><title>استعلام درجات أعمال السنة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#0b1220;--card:#121e30;--line:#26364c;--muted:#a9b8ca;--accent:#5eead4}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Cairo,system-ui;background:radial-gradient(ellipse at top,#1a3450 0,var(--bg) 58%);color:#f4f7fb;display:grid;place-items:center;padding:22px}
+.wrap{width:min(100%,510px)}.brand{text-align:center;margin-bottom:22px}.badge{display:inline-block;border:1px solid #31506a;border-radius:30px;padding:5px 14px;color:var(--accent);font-size:12px}.brand h1{font-size:clamp(23px,5vw,32px);margin:12px 0 3px}.brand p{color:var(--muted);margin:0;font-size:14px}
+.card{background:linear-gradient(145deg,#17263b,#101a2a);border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:0 25px 80px #0007}
+label{display:block;font-size:13px;color:#c7d3e2;margin:16px 0 7px}input{width:100%;border:1px solid #34475e;background:#0b1524;color:white;border-radius:12px;padding:13px 14px;font:inherit;outline:none}input:focus{border-color:var(--accent);box-shadow:0 0 0 3px #5eead422}
+button{width:100%;margin-top:22px;border:0;border-radius:12px;background:linear-gradient(90deg,#14b8a6,#2dd4bf);color:#06211f;padding:13px;font:700 16px Cairo;cursor:pointer}button:disabled{opacity:.6;cursor:wait}
+.note{color:var(--muted);font-size:12px;text-align:center;margin:16px 0 0}.error{color:#fda4af;background:#7f1d1d33;border:1px solid #7f1d1d;padding:11px;border-radius:10px;margin-top:15px;font-size:13px}.result{display:none;margin-top:18px;padding:18px;border:1px solid #1c766e;background:#0d3434;border-radius:15px;text-align:center}.result small{color:#a7f3d0}.score{font-size:48px;font-weight:800;color:#5eead4;line-height:1.5}.student{font-size:14px;color:#e2e8f0}.hidden{display:none!important}
+</style></head>
+<body><main class="wrap">
+<header class="brand"><span class="badge">جامعة بنها · كلية الهندسة بشبرا</span><h1>استعلام درجات أعمال السنة</h1><p>الفرقة الإعدادية · العام الجامعي 2026 / 2027</p></header>
+<section class="card">
+<form id="form">
+<label for="password">كلمة المرور</label><input id="password" type="password" autocomplete="current-password" placeholder="أدخل كلمة المرور" required>
+<div id="studentFields" class="hidden">
+<label for="name">اسم الطالب كما هو مسجل بالكشف</label><input id="name" autocomplete="name" placeholder="الاسم رباعي أو كامل" required>
+<label for="section">رقم السكشن</label><input id="section" type="number" min="1" max="30" inputmode="numeric" placeholder="مثال: 1" required>
+<label for="serial">الرقم المسلسل</label><input id="serial" type="number" min="1" inputmode="numeric" placeholder="الرقم الموجود أمام اسمك" required>
+</div>
+<button id="submit" type="submit">متابعة</button>
+</form><div id="message" aria-live="polite"></div>
+<div id="result" class="result"><small>درجة أعمال السنة (Work)</small><div class="score"><span id="score"></span><span style="font-size:20px"> / 10</span></div><div class="student" id="student"></div></div>
+<p class="note">تظهر درجة Work فقط من 10 درجات. تأكد من صحة بياناتك قبل الاستعلام.</p>
+</section></main>
+<script>
+const API="https://zyswxsopfkcznpbtabnh.supabase.co/functions/v1/student-result";
+const form=document.querySelector("#form"),fields=document.querySelector("#studentFields"),msg=document.querySelector("#message"),result=document.querySelector("#result"),btn=document.querySelector("#submit");
+let unlocked=false;
+form.addEventListener("submit",async e=>{
+ e.preventDefault();msg.className="";msg.textContent="";result.style.display="none";
+ if(!unlocked){
+  if(document.querySelector("#password").value!=="Quiz"){msg.className="error";msg.textContent="كلمة المرور غير صحيحة.";return}
+  unlocked=true;fields.classList.remove("hidden");document.querySelector("#password").readOnly=true;btn.textContent="استعلام عن الدرجة";document.querySelector("#name").focus();return;
+ }
+ btn.disabled=true;btn.textContent="جارٍ التحقق...";
+ try{
+  const res=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:document.querySelector("#password").value,name:document.querySelector("#name").value,section:document.querySelector("#section").value,serial:document.querySelector("#serial").value})});
+  const data=await res.json();if(!res.ok)throw new Error(data.error||"تعذر العثور على النتيجة");
+  document.querySelector("#score").textContent=data.work===null?"غير مرصودة":data.work;
+  document.querySelector("#student").textContent=data.name;result.style.display="block";
+ }catch(err){msg.className="error";msg.textContent=err.message}
+ finally{btn.disabled=false;btn.textContent="استعلام عن الدرجة"}
+});
+</script></body></html>
