@@ -2,59 +2,96 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#101827"><title>استعلام درجات أعمال السنة</title>
+<meta name="theme-color" content="#081321"><title>استعلام درجات أعمال السنة</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{color-scheme:dark;--bg:#0b1220;--card:#121e30;--line:#26364c;--muted:#a9b8ca;--accent:#5eead4}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Cairo,system-ui;background:radial-gradient(ellipse at top,#1a3450 0,var(--bg) 58%);color:#f4f7fb;display:grid;place-items:center;padding:22px}
-.wrap{width:min(100%,510px)}.brand{text-align:center;margin-bottom:22px}.badge{display:inline-block;border:1px solid #31506a;border-radius:30px;padding:5px 14px;color:var(--accent);font-size:12px}.brand h1{font-size:clamp(23px,5vw,32px);margin:12px 0 3px}.brand p{color:var(--muted);margin:0;font-size:14px}
-.card{background:linear-gradient(145deg,#17263b,#101a2a);border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:0 25px 80px #0007}
-label{display:block;font-size:13px;color:#c7d3e2;margin:16px 0 7px}input{width:100%;border:1px solid #34475e;background:#0b1524;color:white;border-radius:12px;padding:13px 14px;font:inherit;outline:none}input:focus{border-color:var(--accent);box-shadow:0 0 0 3px #5eead422}
-button{width:100%;margin-top:22px;border:0;border-radius:12px;background:linear-gradient(90deg,#14b8a6,#2dd4bf);color:#06211f;padding:13px;font:700 16px Cairo;cursor:pointer}button:disabled{opacity:.6;cursor:wait}
-.note{color:var(--muted);font-size:12px;text-align:center;margin:16px 0 0}.error{color:#fda4af;background:#7f1d1d33;border:1px solid #7f1d1d;padding:11px;border-radius:10px;margin-top:15px;font-size:13px}.result{display:none;margin-top:18px;padding:18px;border:1px solid #1c766e;background:#0d3434;border-radius:15px;text-align:center}.result small{color:#a7f3d0}.score{font-size:48px;font-weight:800;color:#5eead4;line-height:1.5}.student{font-size:14px;color:#e2e8f0}.hidden{display:none!important}
+:root{color-scheme:dark;--bg:#07111f;--panel:#101f32;--panel2:#14283d;--line:#29435c;--muted:#9eb1c7;--text:#f4f8fc;--mint:#55e3c2;--blue:#64a9ff}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;padding:30px 18px;display:grid;place-items:center;font-family:Cairo,system-ui,sans-serif;color:var(--text);background:radial-gradient(ellipse at 50% -10%,#1e4964 0%,transparent 48%),radial-gradient(circle at 8% 85%,#123a42 0%,transparent 28%),var(--bg)}
+.wrap{width:min(100%,520px)}
+.brand{text-align:center;margin:0 auto 24px}
+.logo{width:66px;height:66px;margin:0 auto 14px;border-radius:21px;display:grid;place-items:center;background:linear-gradient(145deg,#65e6ca,#2999a6);box-shadow:0 12px 35px #35cbb533;color:#06232c;font-size:30px;font-weight:900}
+.badge{display:inline-flex;align-items:center;gap:7px;border:1px solid #3b6474;background:#102b3b;border-radius:30px;padding:6px 14px;color:#a9f4e2;font-size:12px;font-weight:700}
+.brand h1{font-size:clamp(24px,5vw,32px);font-weight:900;letter-spacing:-.5px;margin:12px 0 3px}
+.brand p{color:var(--muted);font-size:13px;margin:0}
+.card{position:relative;overflow:hidden;background:linear-gradient(145deg,#14283d,#0d1a2b 75%);border:1px solid #2b465e;border-radius:26px;padding:clamp(21px,5vw,30px);box-shadow:0 28px 90px #0008}
+.card:before{content:"";position:absolute;top:0;right:10%;left:10%;height:1px;background:linear-gradient(90deg,transparent,#72e8d2,transparent);opacity:.8}
+.card-head{display:flex;align-items:center;gap:12px;padding-bottom:18px;border-bottom:1px solid #263b50;margin-bottom:5px}
+.card-icon{width:43px;height:43px;border-radius:14px;display:grid;place-items:center;background:#1c3949;color:var(--mint);font-size:21px}
+.card-head strong{display:block;font-size:16px}.card-head span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+label{display:block;font-size:13px;font-weight:700;color:#d4e1ed;margin:17px 0 7px}
+input,select{width:100%;border:1px solid #35516a;background:#091727;color:#f7fbff;border-radius:13px;padding:13px 14px;font:500 14px Cairo;outline:none;transition:.2s}
+input::placeholder{color:#71869d}
+input:focus,select:focus{border-color:var(--mint);box-shadow:0 0 0 3px #55e3c21c}
+.password-row{display:flex;gap:9px}.password-row input{flex:1;min-width:0}
+.toggle{width:auto!important;min-width:78px;margin:0!important;padding:0 13px!important;background:#20384d!important;border:1px solid #35516a!important;color:#d9e8f4!important;font-size:12px!important}
+.primary{width:100%;margin-top:22px;border:0;border-radius:14px;background:linear-gradient(100deg,#50dfbd,#70d9e7);color:#06252a;padding:14px;font:900 15px Cairo;cursor:pointer;box-shadow:0 9px 24px #36cdb52b;transition:transform .2s,filter .2s}
+.primary:hover{filter:brightness(1.07);transform:translateY(-1px)}.primary:disabled{opacity:.6;cursor:wait;transform:none}
+.hidden{display:none!important}
+.note{display:flex;align-items:flex-start;gap:8px;color:#91a7bc;font-size:11px;line-height:1.9;margin:17px 0 0}
+.note b{color:var(--mint);font-size:14px}
+.error{color:#ffc0c5;background:#5a202b55;border:1px solid #a74758;padding:11px 13px;border-radius:12px;margin-top:15px;font-size:12px}
+.result{display:none;margin-top:19px;padding:18px;border:1px solid #2d9b88;background:linear-gradient(145deg,#103a3a,#102d36);border-radius:18px;text-align:center}
+.success-mark{width:34px;height:34px;margin:0 auto 7px;border-radius:50%;display:grid;place-items:center;background:#1c665b;color:#9af5d8;font-weight:900}
+.result-title{font-size:15px;font-weight:800}.student{font-size:12px;color:#b9d2d6;margin-top:3px}
+.scores{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:16px}
+.score-box{padding:11px 5px;border:1px solid #28665f;background:#0a282f;border-radius:13px}
+.score-box small{display:block;color:#9ed5ca;font-size:11px}.score{font-size:clamp(23px,6vw,30px);font-weight:900;color:#69ebcd;line-height:1.6;overflow-wrap:anywhere}
+.footer{text-align:center;color:#617991;font-size:10px;margin:17px 0 0}
+@media(max-width:380px){body{padding:22px 12px}.card{border-radius:21px}.scores{gap:6px}.score-box{padding:9px 3px}}
 </style></head>
 <body><main class="wrap">
-<header class="brand"><span class="badge">جامعة بنها · كلية الهندسة بشبرا</span><h1>استعلام درجات أعمال السنة</h1><p>الفرقة الإعدادية · العام الجامعي 2026 / 2027</p></header>
+<header class="brand">
+<div class="logo">∑</div>
+<span class="badge">✦ جامعة بنها · كلية الهندسة بشبرا</span>
+<h1>استعلام درجات أعمال السنة</h1>
+<p>الفرقة الإعدادية &nbsp;•&nbsp; العام الجامعي 2026 / 2027</p>
+</header>
 <section class="card">
+<div class="card-head"><div class="card-icon">▤</div><div><strong>بوابة عرض النتائج</strong><span>أدخل بياناتك للاستعلام عن درجاتك</span></div></div>
 <form id="form" novalidate>
-<label for="password">كلمة المرور</label><div style="display:flex;gap:8px"><input id="password" type="password" autocomplete="off" placeholder="أدخل كلمة المرور" style="flex:1;min-width:0"><button type="button" id="togglePassword" style="width:auto;margin:0;padding:0 14px;background:#26364c;color:#fff;font-size:13px">إظهار</button></div>
+<label for="password">كلمة المرور</label>
+<div class="password-row"><input id="password" type="password" autocomplete="off" placeholder="أدخل كلمة المرور"><button type="button" id="togglePassword" class="toggle">إظهار</button></div>
 <div id="studentFields" class="hidden">
-<label for="name">اكتب اسمك (مش لازم الاسم رباعي)</label><input id="name" autocomplete="name" placeholder="اكتب اسمك أو جزءًا منه">
-<label for="section">رقم السكشن</label><select id="section" required style="width:100%;border:1px solid #34475e;background:#0b1524;color:white;border-radius:12px;padding:13px 14px;font:inherit"><option value="">اختر السكشن</option><option value="3">سكشن 3</option><option value="4">سكشن 4</option><option value="19">سكشن 19</option><option value="20">سكشن 20</option><option value="27">سكشن 27</option><option value="28">سكشن 28</option></select>
+<label for="name">اسم الطالب</label><input id="name" autocomplete="name" placeholder="اكتب اسمك أو جزءًا منه">
+<label for="section">رقم السكشن</label>
+<select id="section" required><option value="">اختر السكشن</option><option value="3">سكشن 3</option><option value="4">سكشن 4</option><option value="19">سكشن 19</option><option value="20">سكشن 20</option><option value="27">سكشن 27</option><option value="28">سكشن 28</option></select>
 <label for="serial">الرقم المسلسل</label><input id="serial" type="number" min="1" inputmode="numeric" placeholder="الرقم الموجود أمام اسمك">
 </div>
-<button id="submit" type="submit">متابعة</button>
+<button id="submit" class="primary" type="submit">متابعة ←</button>
 </form><div id="message" aria-live="polite"></div>
-<div id="result" class="result"><div class="student" id="student"></div>
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px">
-<div><small>Quiz</small><div class="score" style="font-size:30px" id="quiz"></div></div>
-<div><small>الكشكول</small><div class="score" style="font-size:30px" id="notebook"></div></div>
-<div><small>المجموع</small><div class="score" style="font-size:30px" id="total"></div></div>
+<div id="result" class="result"><div class="success-mark">✓</div><div class="result-title">تم العثور على نتيجتك</div><div class="student" id="student"></div>
+<div class="scores">
+<div class="score-box"><small>Quiz</small><div class="score" id="quiz"></div></div>
+<div class="score-box"><small>الكشكول</small><div class="score" id="notebook"></div></div>
+<div class="score-box"><small>المجموع</small><div class="score" id="total"></div></div>
 </div></div>
-<p class="note">تظهر درجات Quiz والكشكول والمجموع فقط. تأكد من صحة بياناتك قبل الاستعلام.</p>
-</section></main>
+<p class="note"><b>ⓘ</b><span>تظهر درجات Quiz والكشكول والمجموع فقط. تأكد من إدخال السكشن والرقم المسلسل والاسم بصورة صحيحة.</span></p>
+</section><p class="footer">نظام إلكتروني للاستعلام عن الدرجات</p></main>
 <script>
 const API="https://zyswxsopfkcznpbtabnh.supabase.co/functions/v1/student-result";
 const form=document.querySelector("#form"),fields=document.querySelector("#studentFields"),msg=document.querySelector("#message"),result=document.querySelector("#result"),btn=document.querySelector("#submit");
-const studentInputs=[...fields.querySelectorAll("input")];studentInputs.forEach(input=>input.disabled=true);
+const studentInputs=[...fields.querySelectorAll("input,select")];studentInputs.forEach(input=>input.disabled=true);
 let unlocked=false;
 document.querySelector("#togglePassword").addEventListener("click",()=>{const p=document.querySelector("#password");const show=p.type==="password";p.type=show?"text":"password";document.querySelector("#togglePassword").textContent=show?"إخفاء":"إظهار"});
 form.addEventListener("submit",async e=>{
  e.preventDefault();msg.className="";msg.textContent="";result.style.display="none";
  if(!unlocked){
   if(document.querySelector("#password").value!=="1234"){msg.className="error";msg.textContent="كلمة المرور غير صحيحة.";return}
-  unlocked=true;fields.classList.remove("hidden");studentInputs.forEach(input=>input.disabled=false);document.querySelector("#password").readOnly=true;btn.textContent="استعلام عن الدرجة";document.querySelector("#name").focus();return;
+  unlocked=true;fields.classList.remove("hidden");studentInputs.forEach(input=>input.disabled=false);document.querySelector("#password").readOnly=true;btn.textContent="استعلام عن الدرجة ←";document.querySelector("#name").focus();return;
  }
+ const name=document.querySelector("#name").value.trim(),section=document.querySelector("#section").value,serial=document.querySelector("#serial").value;
+ if(name.length<2||!section||!serial||Number(serial)<1){msg.className="error";msg.textContent="من فضلك أكمل الاسم والسكشن والرقم المسلسل بشكل صحيح.";return}
  btn.disabled=true;btn.textContent="جارٍ التحقق...";
  try{
-  const res=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:document.querySelector("#password").value,name:document.querySelector("#name").value,section:document.querySelector("#section").value,serial:document.querySelector("#serial").value})});
+  const res=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:document.querySelector("#password").value,name,section,serial})});
   const data=await res.json();if(!res.ok)throw new Error(data.error||"تعذر العثور على النتيجة");
   document.querySelector("#quiz").textContent=data.quiz;
   document.querySelector("#notebook").textContent=data.notebook;
   document.querySelector("#total").textContent=data.total;
   document.querySelector("#student").textContent=data.name;result.style.display="block";
  }catch(err){msg.className="error";msg.textContent=err.message}
- finally{btn.disabled=false;btn.textContent="استعلام عن الدرجة"}
+ finally{btn.disabled=false;btn.textContent="استعلام عن الدرجة ←"}
 });
 </script></body></html>
