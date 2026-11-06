@@ -56,18 +56,14 @@ input:focus,select:focus{border-color:var(--mint);box-shadow:0 0 0 3px #55e3c21c
 <div id="studentFields" class="hidden">
 <label for="name">اسم الطالب</label><input id="name" autocomplete="name" placeholder="اكتب اسمك أو جزءًا منه">
 <label for="section">رقم السكشن</label>
-<select id="section" required><option value="">اختر السكشن</option><option value="3">سكشن 3</option><option value="4">سكشن 4</option><option value="19">سكشن 19</option><option value="20">سكشن 20</option><option value="27">سكشن 27</option><option value="28">سكشن 28</option></select>
+<select id="section" required><option value="">اختر السكشن</option><option value="1">سكشن 1</option><option value="2">سكشن 2</option><option value="3">سكشن 3</option><option value="4">سكشن 4</option><option value="5">سكشن 5</option><option value="6">سكشن 6</option><option value="7">سكشن 7</option><option value="8">سكشن 8</option><option value="9">سكشن 9</option><option value="10">سكشن 10</option><option value="11">سكشن 11</option><option value="12">سكشن 12</option><option value="13">سكشن 13</option><option value="14">سكشن 14</option><option value="15">سكشن 15</option><option value="16">سكشن 16</option><option value="17">سكشن 17</option><option value="18">سكشن 18</option><option value="19">سكشن 19</option><option value="20">سكشن 20</option><option value="21">سكشن 21</option><option value="22">سكشن 22</option><option value="23">سكشن 23</option><option value="24">سكشن 24</option><option value="25">سكشن 25</option><option value="26">سكشن 26</option><option value="27">سكشن 27</option><option value="28">سكشن 28</option><option value="29">سكشن 29</option><option value="30">سكشن 30</option></select>
 <label for="serial">الرقم المسلسل</label><input id="serial" type="number" min="1" inputmode="numeric" placeholder="الرقم الموجود أمام اسمك">
 </div>
 <button id="submit" class="primary" type="submit">متابعة ←</button>
 </form><div id="message" aria-live="polite"></div>
 <div id="result" class="result"><div class="success-mark">✓</div><div class="result-title">تم العثور على نتيجتك</div><div class="student" id="student"></div>
-<div class="scores">
-<div class="score-box"><small>Quiz</small><div class="score" id="quiz"></div></div>
-<div class="score-box"><small>الكشكول</small><div class="score" id="notebook"></div></div>
-<div class="score-box"><small>المجموع</small><div class="score" id="total"></div></div>
-</div></div>
-<p class="note"><b>ⓘ</b><span>تظهر درجات Quiz والكشكول والمجموع فقط. تأكد من إدخال السكشن والرقم المسلسل والاسم بصورة صحيحة.</span></p>
+<div class="scores"><div class="score-box"><small>Semester Work</small><div class="score" id="work"></div><small>من 10 درجات</small></div></div></div>
+<p class="note"><b>ⓘ</b><span>تظهر درجة Semester Work فقط من 10. تأكد من إدخال السكشن والرقم المسلسل والاسم بصورة صحيحة.</span></p>
 </section><p class="footer">نظام إلكتروني للاستعلام عن الدرجات</p></main>
 <script>
 const API="https://zyswxsopfkcznpbtabnh.supabase.co/functions/v1/student-result";
@@ -87,9 +83,7 @@ form.addEventListener("submit",async e=>{
  try{
   const res=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:document.querySelector("#password").value,name,section,serial})});
   const data=await res.json();if(!res.ok)throw new Error(data.error||"تعذر العثور على النتيجة");
-  document.querySelector("#quiz").textContent=data.quiz;
-  document.querySelector("#notebook").textContent=data.notebook;
-  document.querySelector("#total").textContent=data.total;
+  document.querySelector("#work").textContent=data.work;
   document.querySelector("#student").textContent=data.name;result.style.display="block";
  }catch(err){msg.className="error";msg.textContent=err.message}
  finally{btn.disabled=false;btn.textContent="استعلام عن الدرجة ←"}
