@@ -43,7 +43,7 @@ document.querySelector("#togglePassword").addEventListener("click",()=>{const p=
 form.addEventListener("submit",async e=>{
  e.preventDefault();msg.className="";msg.textContent="";result.style.display="none";
  if(!unlocked){
-  if(!document.querySelector("#password").value.trim()){msg.className="error";msg.textContent="اكتب أي حروف للمتابعة.";return}
+  if(document.querySelector("#password").value!=="1234"){msg.className="error";msg.textContent="كلمة المرور غير صحيحة.";return}
   unlocked=true;fields.classList.remove("hidden");studentInputs.forEach(input=>input.disabled=false);document.querySelector("#password").readOnly=true;btn.textContent="استعلام عن الدرجة";document.querySelector("#name").focus();return;
  }
  btn.disabled=true;btn.textContent="جارٍ التحقق...";
