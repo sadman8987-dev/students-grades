@@ -37,12 +37,13 @@ button{width:100%;margin-top:22px;border:0;border-radius:12px;background:linear-
 <script>
 const API="https://zyswxsopfkcznpbtabnh.supabase.co/functions/v1/student-result";
 const form=document.querySelector("#form"),fields=document.querySelector("#studentFields"),msg=document.querySelector("#message"),result=document.querySelector("#result"),btn=document.querySelector("#submit");
+const studentInputs=[...fields.querySelectorAll("input")];studentInputs.forEach(input=>input.disabled=true);
 let unlocked=false;
 form.addEventListener("submit",async e=>{
  e.preventDefault();msg.className="";msg.textContent="";result.style.display="none";
  if(!unlocked){
   if(document.querySelector("#password").value!=="Quiz"){msg.className="error";msg.textContent="كلمة المرور غير صحيحة.";return}
-  unlocked=true;fields.classList.remove("hidden");document.querySelector("#password").readOnly=true;btn.textContent="استعلام عن الدرجة";document.querySelector("#name").focus();return;
+  unlocked=true;fields.classList.remove("hidden");studentInputs.forEach(input=>input.disabled=false);document.querySelector("#password").readOnly=true;btn.textContent="استعلام عن الدرجة";document.querySelector("#name").focus();return;
  }
  btn.disabled=true;btn.textContent="جارٍ التحقق...";
  try{
