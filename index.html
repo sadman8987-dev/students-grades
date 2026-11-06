@@ -18,7 +18,7 @@ button{width:100%;margin-top:22px;border:0;border-radius:12px;background:linear-
 <header class="brand"><span class="badge">جامعة بنها · كلية الهندسة بشبرا</span><h1>استعلام درجات أعمال السنة</h1><p>الفرقة الإعدادية · العام الجامعي 2026 / 2027</p></header>
 <section class="card">
 <form id="form">
-<label for="password">كلمة المرور</label><input id="password" type="password" autocomplete="current-password" placeholder="أدخل كلمة المرور" required>
+<label for="password">كلمة المرور</label><div style="display:flex;gap:8px"><input id="password" type="password" autocomplete="off" placeholder="اكتب أي حروف" required style="flex:1;min-width:0"><button type="button" id="togglePassword" style="width:auto;margin:0;padding:0 14px;background:#26364c;color:#fff;font-size:13px">إظهار</button></div>
 <div id="studentFields" class="hidden">
 <label for="name">اسم الطالب كما هو مسجل بالكشف</label><input id="name" autocomplete="name" placeholder="الاسم رباعي أو كامل" required>
 <label for="section">رقم السكشن</label><input id="section" type="number" min="1" max="30" inputmode="numeric" placeholder="مثال: 1" required>
@@ -39,10 +39,11 @@ const API="https://zyswxsopfkcznpbtabnh.supabase.co/functions/v1/student-result"
 const form=document.querySelector("#form"),fields=document.querySelector("#studentFields"),msg=document.querySelector("#message"),result=document.querySelector("#result"),btn=document.querySelector("#submit");
 const studentInputs=[...fields.querySelectorAll("input")];studentInputs.forEach(input=>input.disabled=true);
 let unlocked=false;
+document.querySelector("#togglePassword").addEventListener("click",()=>{const p=document.querySelector("#password");const show=p.type==="password";p.type=show?"text":"password";document.querySelector("#togglePassword").textContent=show?"إخفاء":"إظهار"});
 form.addEventListener("submit",async e=>{
  e.preventDefault();msg.className="";msg.textContent="";result.style.display="none";
  if(!unlocked){
-  if(document.querySelector("#password").value!=="Quiz"){msg.className="error";msg.textContent="كلمة المرور غير صحيحة.";return}
+  if(!document.querySelector("#password").value.trim()){msg.className="error";msg.textContent="اكتب أي حروف للمتابعة.";return}
   unlocked=true;fields.classList.remove("hidden");studentInputs.forEach(input=>input.disabled=false);document.querySelector("#password").readOnly=true;btn.textContent="استعلام عن الدرجة";document.querySelector("#name").focus();return;
  }
  btn.disabled=true;btn.textContent="جارٍ التحقق...";
