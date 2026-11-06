@@ -9,13 +9,10 @@
 *{box-sizing:border-box}
 body{margin:0;padding:28px 16px;font-family:Arial,Tahoma,sans-serif;background:#f3f6fa;color:#172536}
 .wrap{max-width:680px;margin:32px auto}
-header{background:linear-gradient(135deg,#12304a,#1769aa);color:#fff;padding:30px 26px;border-radius:18px 18px 0 0}
-header p{margin:0;line-height:1.8;color:#e4eef8}
-form{background:#fff;padding:26px;border-radius:0 0 18px 18px;box-shadow:0 12px 35px #18324a12}
-.field{margin-bottom:23px}
-label{display:block;font-weight:700;font-size:17px;margin-bottom:9px}
-.hint{font-size:13px;color:#667789;margin:0 0 10px}
-textarea{display:block;width:100%;min-height:112px;padding:14px;border:1px solid #ccd6e0;border-radius:10px;font:16px/1.7 Arial,Tahoma,sans-serif;resize:vertical;outline:none}
+form{background:#fff;padding:28px;border-radius:18px;box-shadow:0 12px 35px #18324a12}
+.field{margin-bottom:25px}
+label{display:block;font-weight:800;font-size:21px;line-height:1.6;margin-bottom:11px;color:#12304a}
+textarea{display:block;width:100%;min-height:125px;padding:14px;border:1px solid #ccd6e0;border-radius:10px;font:16px/1.7 Arial,Tahoma,sans-serif;resize:vertical;outline:none}
 textarea:focus{border-color:#1769aa;box-shadow:0 0 0 3px #1769aa18}
 button{width:100%;padding:15px;border:0;border-radius:10px;background:#1769aa;color:#fff;font-size:17px;font-weight:700;cursor:pointer}
 button:disabled{opacity:.6;cursor:wait}
@@ -25,28 +22,22 @@ button:disabled{opacity:.6;cursor:wait}
 </head>
 <body>
 <div class="wrap">
-<header>
-<p>هدفنا نطوّر الشرح ونخلي التجربة التعليمية أفضل. شاركنا رأيك بصراحة؛ إجاباتك بدون اسم أو بريد إلكتروني.</p>
-</header>
 <form id="form">
 <div class="field">
-<label for="strengths">1. إيه مميزات الشرح؟</label>
-<p class="hint">إيه أكتر حاجة استفدت منها أو حابب تستمر؟</p>
-<textarea id="strengths" maxlength="1500" placeholder="اكتب مميزات الشرح هنا..."></textarea>
+<label for="strengths">قول الميزات</label>
+<textarea id="strengths" maxlength="1500" placeholder="اكتب هنا..."></textarea>
 </div>
 <div class="field">
-<label for="weaknesses">2. إيه العيوب أو الحاجات اللي محتاجة تتحسن؟</label>
-<p class="hint">ممكن تذكر أي نقطة مش واضحة أو صعبة أو محتاجة وقت أكتر.</p>
-<textarea id="weaknesses" maxlength="1500" placeholder="اكتب ملاحظاتك بصراحة..."></textarea>
+<label for="weaknesses">والعيوب</label>
+<textarea id="weaknesses" maxlength="1500" placeholder="اكتب هنا..."></textarea>
 </div>
 <div class="field">
-<label for="improvements">3. إزاي نخلي الشرح أفضل؟</label>
-<p class="hint">اقترح طريقة شرح، أمثلة، مسائل، مراجعات أو أي فكرة تساعدك.</p>
-<textarea id="improvements" maxlength="1500" placeholder="اكتب اقتراحاتك لتطوير الشرح..."></textarea>
+<label for="improvements">وازاي نخلي الشرح افضل</label>
+<textarea id="improvements" maxlength="1500" placeholder="اكتب هنا..."></textarea>
 </div>
 <button id="send" type="submit">إرسال التقييم</button>
 <div id="message" role="status" aria-live="polite"></div>
-<p class="privacy">لن نطلب اسمك أو بريدك الإلكتروني. شكرًا لمساعدتنا على التطوير.</p>
+<p class="privacy">لن نطلب اسمك أو بريدك الإلكتروني.</p>
 </form>
 </div>
 <script>
@@ -59,9 +50,9 @@ form.addEventListener("submit",async e=>{
  const improvements=document.getElementById("improvements").value.trim();
  if(!strengths&&!weaknesses&&!improvements){message.textContent="اكتب إجابة واحدة على الأقل قبل الإرسال.";return}
  const feedback=[
-  "مميزات الشرح:\n"+(strengths||"لم تتم الإجابة"),
-  "العيوب أو ما يحتاج إلى تحسين:\n"+(weaknesses||"لم تتم الإجابة"),
-  "اقتراحات تطوير الشرح:\n"+(improvements||"لم تتم الإجابة")
+  "قول الميزات:\n"+(strengths||"لم تتم الإجابة"),
+  "والعيوب:\n"+(weaknesses||"لم تتم الإجابة"),
+  "وازاي نخلي الشرح افضل:\n"+(improvements||"لم تتم الإجابة")
  ].join("\n\n--------------------\n\n");
  button.disabled=true;button.textContent="جارٍ إرسال التقييم...";
  try{
