@@ -123,7 +123,29 @@ async function saveSurahToDB(id,data){const db=await openDB();return new Promise
 async function getOfflineSurah(id){const db=await openDB();return new Promise((res,rej)=>{const tx=db.transaction('surahs','readonly'),r=tx.objectStore('surahs').get(id);r.onsuccess=()=>res(r.result?.data||null);r.onerror=()=>rej(r.error)})}
 async function downloadAll(){const b=$('downloadQuran');b.disabled=true;for(let i=1;i<=114;i++){try{let d=cache.get(i)||await api('/surah/'+i+'/quran-uthmani');cache.set(i,d);await saveSurahToDB(i,d);$('offlineStatus').textContent='تم حفظ '+arNum(i)+' من ١١٤ سورة'}catch(e){$('offlineStatus').textContent='توقف التنزيل عند السورة '+arNum(i)+'. تحقق من الاتصال ثم أعد المحاولة.';b.disabled=false;return}}$('offlineStatus').textContent='اكتمل حفظ نص السور الـ١١٤ على هذا الجهاز. جرّب فتحها بعد فصل الإنترنت.';b.disabled=false}
 document.addEventListener('click',async e=>{const s=e.target.closest('.surah-card[data-surah]');if(s){openSurah(Number(s.dataset.surah));return}const o=e.target.closest('[data-open]');if(o){openSurah(Number(o.dataset.open),Number(o.dataset.ayah)||1);return}const f=e.target.closest('[data-favdel]');if(f){store.set('favorites',favorites().filter(a=>a.number!==Number(f.dataset.favdel)));renderSaved()}const sf=e.target.closest('[data-unfav]');if(sf){store.set('surahs',store.get('surahs',[]).filter(x=>x!==Number(sf.dataset.unfav)));renderSaved()}if(e.target.closest('[data-resume]')){const l=store.get('last',{surah:1,ayah:1});openSurah(l.surah,l.ayah)}const pg=e.target.closest('[data-page]');if(pg)openPage(Number(pg.dataset.page))});
-$('quranText').addEventListener('click',async e=>{const el=e.target.closest('.ayah');if(!el)return;const n=Number(el.dataset.ayah),sn=Number(el.dataset.surah)||activeSurah;const a=activeAyahs.find(x=>x.numberInSurah===n&&(x.surah?.number||sn)===sn)||activeAyahs.find(x=>x.numberInSurah===n);if(!a)return;store.set('last',{surah:sn,ayah:n});highlightAyah(n);const old=document.getElementById('ayahActions');old?.remove();const bar=document.createElement('div');bar.id='ayahActions';bar.className='saved-item';bar.innerHTML='<strong>الآية '+arNum(n)+'</strong><div class="saved-actions"><button data-action="fav">♡ حفظ</button><button data-action="copy">نسخ</button><button data-action="share">مشاركة</button></div>';el.after(bar);bar.onclick=async ev=>{const act=ev.target.dataset.action;if(act==='fav'){saveFavorite({number:a.number||a.globalNumber,surah:{number:sn,name:a.surah?.name||surahs.find(x=>x.number===sn)?.name},numberInSurah:n,text:a.text});ev.target.textContent='تم الحفظ'}if(act==='copy'){await navigator.clipboard?.writeText(a.text);ev.target.textContent='تم النسخ'}if(act==='share'){if(navigator.share)await navigator.share({text:a.text+'\n— '+(a.surah?.name||'القرآن الكريم')+'، الآية '+n});else await navigator.clipboard?.writeText(a.text)}}});
+$('quranText').addEventListener('click',async e=>{
+ const el=e.target.closest('.ayah');
+ if(!el){if(!e.target.closest('#ayahActions'))clearAyahSelection();return}
+ const n=Number(el.dataset.ayah),sn=Number(el.dataset.surah)||activeSurah;
+ const a=activeAyahs.find(x=>x.numberInSurah===n&&(x.surah?.number||sn)===sn)||activeAyahs.find(x=>x.numberInSurah===n);
+ if(!a)return;
+ store.set('last',{surah:sn,ayah:n});highlightAyah(n,sn,false);
+ document.getElementById('ayahActions')?.remove();
+ const bar=document.createElement('div');bar.id='ayahActions';bar.className='saved-item';
+ bar.innerHTML='<strong>الآية '+arNum(n)+'</strong><div class="saved-actions"><button data-action="fav">♡ حفظ</button><button data-action="copy">نسخ</button><button data-action="share">مشاركة</button></div>';
+ el.after(bar);
+ if(audioAyahs.length&&$('audioPlayer').dataset.surah===String(sn)){
+  const idx=audioAyahs.findIndex(x=>Number(x.numberInSurah)===n);
+  if(idx>=0){audioIndex=idx;try{await playRecitationAyah()}catch(err){}}
+ }
+ bar.onclick=async ev=>{
+  const act=ev.target.dataset.action;
+  if(act==='fav'){saveFavorite({number:a.number||a.globalNumber,surah:{number:sn,name:a.surah?.name||surahs.find(x=>x.number===sn)?.name},numberInSurah:n,text:a.text});ev.target.textContent='تم الحفظ'}
+  if(act==='copy'){await navigator.clipboard?.writeText(a.text);ev.target.textContent='تم النسخ'}
+  if(act==='share'){if(navigator.share)await navigator.share({text:a.text+'\n— '+(a.surah?.name||'القرآن الكريم')+'، الآية '+n});else await navigator.clipboard?.writeText(a.text)}
+ };
+});
+document.addEventListener('click',e=>{if(!e.target.closest('#quranText')&&!e.target.closest('#audioPanel'))clearAyahSelection()});
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>showView(t.dataset.view)));
 $('surahFilter').addEventListener('input',renderSurahs);$('surahSort').addEventListener('change',renderSurahs);$('globalSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){const q=normalize(e.target.value);const s=surahs.find(x=>normalize(x.name).includes(q)||String(x.number)===q);if(s)openSurah(s.number);else{$('verseSearch').value=e.target.value;showView('search');searchQuran()}}});
 $('continueBtn').onclick=()=>{const l=store.get('last',{surah:1,ayah:1});openSurah(l.surah,l.ayah)};$('bookmarksBtn').onclick=()=>{renderSaved();showView('saved')};$('settingsBtn').onclick=()=>$('settingsDialog').showModal();$('readingTheme').onchange=e=>{theme=e.target.value;applyTheme()};$('fontRange').oninput=e=>{fontSize=Number(e.target.value);applyTheme()};$('settingsDialog').addEventListener('close',()=>{theme=$('readingTheme').value;fontSize=Number($('fontRange').value);store.set('theme',theme);store.set('fontSize',fontSize);applyTheme()});
