@@ -1,90 +1,54 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#081321"><title>استعلام درجات أعمال السنة</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-:root{color-scheme:dark;--bg:#07111f;--panel:#101f32;--panel2:#14283d;--line:#29435c;--muted:#9eb1c7;--text:#f4f8fc;--mint:#55e3c2;--blue:#64a9ff}
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;padding:30px 18px;display:grid;place-items:center;font-family:Cairo,system-ui,sans-serif;color:var(--text);background:radial-gradient(ellipse at 50% -10%,#1e4964 0%,transparent 48%),radial-gradient(circle at 8% 85%,#123a42 0%,transparent 28%),var(--bg)}
-.wrap{width:min(100%,520px)}
-.brand{text-align:center;margin:0 auto 24px}
-.logo{width:66px;height:66px;margin:0 auto 14px;border-radius:21px;display:grid;place-items:center;background:linear-gradient(145deg,#65e6ca,#2999a6);box-shadow:0 12px 35px #35cbb533;color:#06232c;font-size:30px;font-weight:900}
-.badge{display:inline-flex;align-items:center;gap:7px;border:1px solid #3b6474;background:#102b3b;border-radius:30px;padding:6px 14px;color:#a9f4e2;font-size:12px;font-weight:700}
-.brand h1{font-size:clamp(24px,5vw,32px);font-weight:900;letter-spacing:-.5px;margin:12px 0 3px}
-.brand p{color:var(--muted);font-size:13px;margin:0}
-.card{position:relative;overflow:hidden;background:linear-gradient(145deg,#14283d,#0d1a2b 75%);border:1px solid #2b465e;border-radius:26px;padding:clamp(21px,5vw,30px);box-shadow:0 28px 90px #0008}
-.card:before{content:"";position:absolute;top:0;right:10%;left:10%;height:1px;background:linear-gradient(90deg,transparent,#72e8d2,transparent);opacity:.8}
-.card-head{display:flex;align-items:center;gap:12px;padding-bottom:18px;border-bottom:1px solid #263b50;margin-bottom:5px}
-.card-icon{width:43px;height:43px;border-radius:14px;display:grid;place-items:center;background:#1c3949;color:var(--mint);font-size:21px}
-.card-head strong{display:block;font-size:16px}.card-head span{display:block;color:var(--muted);font-size:11px;margin-top:2px}
-label{display:block;font-size:13px;font-weight:700;color:#d4e1ed;margin:17px 0 7px}
-input,select{width:100%;border:1px solid #35516a;background:#091727;color:#f7fbff;border-radius:13px;padding:13px 14px;font:500 14px Cairo;outline:none;transition:.2s}
-input::placeholder{color:#71869d}
-input:focus,select:focus{border-color:var(--mint);box-shadow:0 0 0 3px #55e3c21c}
-.password-row{display:flex;gap:9px}.password-row input{flex:1;min-width:0}
-.toggle{width:auto!important;min-width:78px;margin:0!important;padding:0 13px!important;background:#20384d!important;border:1px solid #35516a!important;color:#d9e8f4!important;font-size:12px!important}
-.primary{width:100%;margin-top:22px;border:0;border-radius:14px;background:linear-gradient(100deg,#50dfbd,#70d9e7);color:#06252a;padding:14px;font:900 15px Cairo;cursor:pointer;box-shadow:0 9px 24px #36cdb52b;transition:transform .2s,filter .2s}
-.primary:hover{filter:brightness(1.07);transform:translateY(-1px)}.primary:disabled{opacity:.6;cursor:wait;transform:none}
-.hidden{display:none!important}
-.note{display:flex;align-items:flex-start;gap:8px;color:#91a7bc;font-size:11px;line-height:1.9;margin:17px 0 0}
-.note b{color:var(--mint);font-size:14px}
-.error{color:#ffc0c5;background:#5a202b55;border:1px solid #a74758;padding:11px 13px;border-radius:12px;margin-top:15px;font-size:12px}
-.result{display:none;margin-top:19px;padding:18px;border:1px solid #2d9b88;background:linear-gradient(145deg,#103a3a,#102d36);border-radius:18px;text-align:center}
-.success-mark{width:34px;height:34px;margin:0 auto 7px;border-radius:50%;display:grid;place-items:center;background:#1c665b;color:#9af5d8;font-weight:900}
-.result-title{font-size:15px;font-weight:800}.student{font-size:12px;color:#b9d2d6;margin-top:3px}
-.scores{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:16px}
-.score-box{padding:11px 5px;border:1px solid #28665f;background:#0a282f;border-radius:13px}
-.score-box small{display:block;color:#9ed5ca;font-size:11px}.score{font-size:clamp(23px,6vw,30px);font-weight:900;color:#69ebcd;line-height:1.6;overflow-wrap:anywhere}
-.footer{text-align:center;color:#617991;font-size:10px;margin:17px 0 0}
-@media(max-width:380px){body{padding:22px 12px}.card{border-radius:21px}.scores{gap:6px}.score-box{padding:9px 3px}}
-</style></head>
-<body><main class="wrap">
-<header class="brand">
-<div class="logo">∑</div>
-<span class="badge">✦ جامعة بنها · كلية الهندسة بشبرا</span>
-<h1>استعلام درجات أعمال السنة</h1>
-<p>الفرقة الإعدادية &nbsp;•&nbsp; العام الجامعي 2026 / 2027</p>
-</header>
-<section class="card">
-<div class="card-head"><div class="card-icon">▤</div><div><strong>بوابة عرض النتائج</strong><span>أدخل بياناتك للاستعلام عن درجاتك</span></div></div>
-<form id="form" novalidate>
-<label for="password">كلمة المرور</label>
-<div class="password-row"><input id="password" type="password" autocomplete="off" placeholder="أدخل كلمة المرور"><button type="button" id="togglePassword" class="toggle">إظهار</button></div>
-<div id="studentFields" class="hidden">
-<label for="name">اسم الطالب</label><input id="name" autocomplete="name" placeholder="اكتب اسمك أو جزءًا منه">
-<label for="section">رقم السكشن</label>
-<select id="section" required><option value="">اختر السكشن</option><option value="1">سكشن 1</option><option value="2">سكشن 2</option><option value="3">سكشن 3</option><option value="4">سكشن 4</option><option value="5">سكشن 5</option><option value="6">سكشن 6</option><option value="7">سكشن 7</option><option value="8">سكشن 8</option><option value="9">سكشن 9</option><option value="10">سكشن 10</option><option value="11">سكشن 11</option><option value="12">سكشن 12</option><option value="13">سكشن 13</option><option value="14">سكشن 14</option><option value="15">سكشن 15</option><option value="16">سكشن 16</option><option value="17">سكشن 17</option><option value="18">سكشن 18</option><option value="19">سكشن 19</option><option value="20">سكشن 20</option><option value="21">سكشن 21</option><option value="22">سكشن 22</option><option value="23">سكشن 23</option><option value="24">سكشن 24</option><option value="25">سكشن 25</option><option value="26">سكشن 26</option><option value="27">سكشن 27</option><option value="28">سكشن 28</option><option value="29">سكشن 29</option><option value="30">سكشن 30</option></select>
-<label for="serial">الرقم المسلسل</label><input id="serial" type="number" min="1" inputmode="numeric" placeholder="الرقم الموجود أمام اسمك">
-</div>
-<button id="submit" class="primary" type="submit">متابعة ←</button>
-</form><div id="message" aria-live="polite"></div>
-<div id="result" class="result"><div class="success-mark">✓</div><div class="result-title">تم العثور على نتيجتك</div><div class="student" id="student"></div>
-<div class="scores"><div class="score-box"><small>Semester Work</small><div class="score" id="work"></div><small>من 10 درجات</small></div></div></div>
-<p class="note"><b>ⓘ</b><span>تظهر درجة Semester Work فقط من 10. تأكد من إدخال السكشن والرقم المسلسل والاسم بصورة صحيحة.</span></p>
-</section><p class="footer">نظام إلكتروني للاستعلام عن الدرجات</p></main>
-<script>
-const API="https://zyswxsopfkcznpbtabnh.supabase.co/functions/v1/student-result";
-const form=document.querySelector("#form"),fields=document.querySelector("#studentFields"),msg=document.querySelector("#message"),result=document.querySelector("#result"),btn=document.querySelector("#submit");
-const studentInputs=[...fields.querySelectorAll("input,select")];studentInputs.forEach(input=>input.disabled=true);
-let unlocked=false;
-document.querySelector("#togglePassword").addEventListener("click",()=>{const p=document.querySelector("#password");const show=p.type==="password";p.type=show?"text":"password";document.querySelector("#togglePassword").textContent=show?"إخفاء":"إظهار"});
-form.addEventListener("submit",async e=>{
- e.preventDefault();msg.className="";msg.textContent="";result.style.display="none";
- if(!unlocked){
-  unlocked=true;fields.classList.remove("hidden");studentInputs.forEach(input=>input.disabled=false);btn.textContent="استعلام عن الدرجة ←";document.querySelector("#name").focus();return;
- }
- const name=document.querySelector("#name").value.trim(),section=document.querySelector("#section").value,serial=document.querySelector("#serial").value;
- if(name.length<2||!section||!serial||Number(serial)<1){msg.className="error";msg.textContent="من فضلك أكمل الاسم والسكشن والرقم المسلسل بشكل صحيح.";return}
- btn.disabled=true;btn.textContent="جارٍ التحقق...";
- try{
-  const res=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password:document.querySelector("#password").value,name,section,serial})});
-  const data=await res.json();if(!res.ok)throw new Error(data.error||"تعذر العثور على النتيجة");
-  document.querySelector("#work").textContent=data.work;
-  document.querySelector("#student").textContent=data.name;result.style.display="block";
- }catch(err){msg.className="error";msg.textContent=err.message}
- finally{btn.disabled=false;btn.textContent="استعلام عن الدرجة ←"}
-});
-</script></body></html>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071a2b">
+  <meta name="description" content="بوابة آمنة للاستعلام عن درجة Semester Work للطلاب">
+  <title>بوابة استعلام الدرجات</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#061321;--surface:#0c1d2d;--surface-2:#10283b;--line:#25435a;--text:#f5fbff;--muted:#9fb4c7;--brand:#58e0c0;--brand-2:#74c9ff;--danger:#ffb8c1;--danger-bg:#4b202c}
+    *{box-sizing:border-box} body{margin:0;min-height:100vh;font-family:Cairo,system-ui,sans-serif;color:var(--text);background:radial-gradient(900px 420px at 80% -10%,#18526a 0%,transparent 60%),radial-gradient(700px 420px at 0% 100%,#123d42 0%,transparent 62%),var(--bg)}
+    .shell{width:min(100% - 32px,680px);margin:0 auto;padding:42px 0 28px}.brand{text-align:center;margin-bottom:24px}.mark{width:70px;height:70px;margin:auto;display:grid;place-items:center;border-radius:24px;background:linear-gradient(135deg,var(--brand),var(--brand-2));color:#06212e;font-size:29px;font-weight:900;box-shadow:0 18px 46px #3fd5bc2e}.eyebrow{display:inline-flex;margin-top:16px;border:1px solid #477b85;background:#0d2b3a;color:#aef5e4;border-radius:999px;padding:6px 14px;font-size:12px;font-weight:700}.brand h1{font-size:clamp(25px,5vw,36px);line-height:1.25;margin:13px 0 5px;letter-spacing:-.7px}.brand p{color:var(--muted);font-size:13px;margin:0}
+    .card{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:28px;padding:clamp(22px,5vw,34px);background:linear-gradient(145deg,#112b40,#0b1b2b 80%);box-shadow:0 28px 90px #0008}.card:before{content:"";position:absolute;inset:0 13% auto;height:1px;background:linear-gradient(90deg,transparent,var(--brand),transparent)}.card-title{display:flex;align-items:center;gap:13px;padding-bottom:18px;border-bottom:1px solid #244057;margin-bottom:3px}.card-icon{width:44px;height:44px;border-radius:15px;background:#173a4b;color:var(--brand);display:grid;place-items:center;font-size:21px}.card-title strong{display:block;font-size:17px}.card-title span{display:block;color:var(--muted);font-size:11px;margin-top:2px}label{display:block;color:#dce9f2;font-size:13px;font-weight:700;margin:18px 0 7px}input,select{width:100%;padding:13px 14px;border:1px solid #35556b;border-radius:14px;background:#071725;color:var(--text);font:500 14px Cairo;outline:0;transition:.2s}input::placeholder{color:#70879c}input:focus,select:focus{border-color:var(--brand);box-shadow:0 0 0 4px #58e0c01a}.password-row{display:flex;gap:9px}.password-row input{flex:1;min-width:0}.toggle{width:auto;min-width:82px!important;background:#1d364b!important;color:#e4f1f8!important;font-size:12px!important;font-weight:700!important}.fields{animation:rise .28s ease both}.hidden{display:none!important}.primary{width:100%;border:0;border-radius:15px;margin-top:23px;padding:14px;background:linear-gradient(100deg,var(--brand),#72d5e5);color:#06242d;font:900 15px Cairo;cursor:pointer;box-shadow:0 10px 28px #42cfb62b;transition:.2s}.primary:hover{transform:translateY(-1px);filter:brightness(1.06)}.primary:disabled{opacity:.62;cursor:wait;transform:none}.error,.success{margin-top:16px;padding:11px 14px;border-radius:13px;font-size:12px;line-height:1.8}.error{color:var(--danger);background:var(--danger-bg);border:1px solid #a7485c}.success{color:#b5f8e5;background:#123c39;border:1px solid #31937f}.result{display:none;margin-top:20px;padding:20px;border:1px solid #2d9d8b;border-radius:20px;text-align:center;background:linear-gradient(145deg,#103a3c,#102a35);animation:rise .3s ease both}.result-mark{width:36px;height:36px;margin:0 auto 8px;display:grid;place-items:center;border-radius:50%;background:#1d675d;color:#9ff5db;font-weight:900}.student{color:#c0d5da;font-size:13px;margin-top:3px}.score{margin:18px auto 0;padding:14px;border-radius:15px;background:#09292f;border:1px solid #287466}.score small{display:block;color:#a7ddd3;font-size:11px}.score strong{display:block;color:#6df0cf;font-size:30px;line-height:1.45}.hint{display:flex;gap:8px;color:#91a9ba;font-size:11px;line-height:1.9;margin:18px 0 0}.hint b{color:var(--brand);font-size:14px}.footer{text-align:center;color:#688096;font-size:10px;margin:17px 0 0}@keyframes rise{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}@media(max-width:390px){.shell{width:min(100% - 22px,680px);padding-top:25px}.card{border-radius:22px;padding:21px}.password-row{display:block}.toggle{width:100%;height:42px;margin-top:8px}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="brand"><div class="mark">∑</div><span class="eyebrow">كلية الهندسة بشبرا · الفرقة الإعدادية</span><h1>بوابة استعلام الدرجات</h1><p>العام الجامعي 2026 / 2027</p></header>
+    <section class="card">
+      <div class="card-title"><div class="card-icon">▤</div><div><strong>استعلام شخصي وآمن</strong><span>لن تظهر إلا نتيجة الطالب المطابقة لبياناته</span></div></div>
+      <form id="form" novalidate>
+        <label for="password">كلمة المرور الرئيسية</label>
+        <div class="password-row"><input id="password" type="password" autocomplete="off" placeholder="أدخل كلمة المرور" required><button class="toggle" id="toggle" type="button">إظهار</button></div>
+        <div id="fields" class="fields hidden">
+          <label for="section">رقم السكشن</label><select id="section" required><option value="">اختر السكشن</option></select>
+          <label for="serial">الرقم المسلسل</label><input id="serial" type="number" min="1" inputmode="numeric" placeholder="الرقم الموجود أمام اسمك" required>
+          <label for="name">اسم الطالب أو جزء من الاسم</label><input id="name" autocomplete="name" placeholder="مثال: احمد محمد ابراهيم" required>
+        </div>
+        <button id="submit" class="primary" type="submit">تحقق من كلمة المرور ←</button>
+      </form>
+      <div id="message" aria-live="polite"></div>
+      <div id="result" class="result" aria-live="polite"><div class="result-mark">✓</div><strong>تم العثور على نتيجتك</strong><div class="student" id="student"></div><div class="score"><small>Semester Work</small><strong id="work"></strong><small>من 10 درجات</small></div></div>
+      <p class="hint"><b>ⓘ</b><span>تُقبل اختلافات الهمزات والياء والتشكيل والمسافات، ويمكنك كتابة جزء من الاسم. لا يتم عرض أي درجات أخرى.</span></p>
+    </section>
+    <p class="footer">نظام إلكتروني للاستعلام الفردي عن الدرجات</p>
+  </main>
+  <script>
+    const API='https://zyswxsopfkcznpbtabnh.supabase.co/functions/v1/student-result';
+    const form=document.querySelector('#form'), fields=document.querySelector('#fields'), password=document.querySelector('#password'), message=document.querySelector('#message'), result=document.querySelector('#result'), submit=document.querySelector('#submit');
+    for(let i=1;i<=30;i++){const o=document.createElement('option');o.value=i;o.textContent=`سكشن ${i}`;document.querySelector('#section').append(o)}
+    document.querySelector('#toggle').addEventListener('click',()=>{const show=password.type==='password';password.type=show?'text':'password';document.querySelector('#toggle').textContent=show?'إخفاء':'إظهار'});
+    function showMessage(text,type='error'){message.className=type;message.textContent=text}
+    async function call(payload){const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});let d={};try{d=await r.json()}catch{}if(!r.ok)throw new Error(d.error||'تعذر إتمام التحقق حالياً.');return d}
+    form.addEventListener('submit',async e=>{e.preventDefault();message.className='';message.textContent='';result.style.display='none';submit.disabled=true;submit.textContent='جارٍ التحقق...';
+      try{if(fields.classList.contains('hidden')){await call({password:password.value});fields.classList.remove('hidden');submit.textContent='استعلام عن الدرجة ←';document.querySelector('#section').focus();showMessage('تم التحقق. أدخل بياناتك لإظهار النتيجة.','success');return}
+        const name=document.querySelector('#name').value.trim(),section=document.querySelector('#section').value,serial=document.querySelector('#serial').value;if(name.length<2||!section||!serial||Number(serial)<1)throw new Error('أكمل الاسم والسكشن والرقم المسلسل بشكل صحيح.');
+        const d=await call({password:password.value,name,section:Number(section),serial:Number(serial)});document.querySelector('#student').textContent=d.name;document.querySelector('#work').textContent=`${d.work}/10`;result.style.display='block';showMessage('تم التحقق من البيانات بنجاح.','success');
+      }catch(err){showMessage(err.message)}finally{submit.disabled=false;if(fields.classList.contains('hidden'))submit.textContent='تحقق من كلمة المرور ←';else submit.textContent='استعلام عن الدرجة ←'}});
+  </script>
+</body>
+</html>
