@@ -241,7 +241,7 @@ async function loadRecitation(surahId,startIndex=0){
  try{
   audioAyahs=[];audioIndex=0;
   const file=String(surahId).padStart(3,'0')+'.mp3';
-  const base=remoteAudioBases.get(normalize(reciter.name))||reciter.base;audio.src=base+file;audio.playbackRate=Number($('playbackRate').value||1);audio.load();
+  const base=remoteAudioBases.get(normalize(reciter.name))||reciter.base;audio.preload='auto';audio.src=base+file;audio.playbackRate=Number($('playbackRate').value||1);audio.load();
   $('audioLabel').textContent=reciter.name+' · سورة '+$('readerName').textContent;
   await audio.play();$('listenBtn').textContent='❚❚ إيقاف / تشغيل';
  }catch(err){$('audioLabel').textContent='تعذر تشغيل صوت '+reciter.name+'. جرّب قارئًا آخر أو أعد المحاولة.';$('listenBtn').textContent='▶ إعادة المحاولة'}
@@ -327,7 +327,7 @@ $('continueBtn').onclick=()=>{const l=store.get('last',{surah:1,ayah:1});openSur
 $('openPage').onclick=()=>openPage($('pageNumber').value);$('pageNumber').onkeydown=e=>{if(e.key==='Enter')openPage(e.target.value)};$('openJuz').onclick=()=>openSegment('juz',$('juzNumber').value);$('openHizb').onclick=()=>openSegment('hizb',$('hizbNumber').value);$('runSearch').onclick=()=>searchQuran();$('verseSearch').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();searchQuran()}};$('searchResults').addEventListener('click',e=>{const b=e.target.closest('[data-search-page]');if(b&&!b.disabled){searchPage=Math.max(0,Math.min(Math.ceil(searchMatches.length/SEARCH_PAGE_SIZE)-1,Number(b.dataset.searchPage)));renderSearchResults()}if(e.target.closest('[data-search-retry]'))searchQuran()});$('searchSuggestions').addEventListener('click',e=>{const b=e.target.closest('[data-search-term]');if(b){$('verseSearch').value=b.dataset.searchTerm;searchQuran(b.dataset.searchTerm)}});$('downloadQuran').onclick=downloadAll;$('downloadAudioAll').onclick=downloadAllAudio;$('downloadSurahAudio').onclick=downloadCurrentAudio;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;$('installBtn').hidden=false});$('installBtn').onclick=async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$('installBtn').hidden=true};
 async function init(){applyTheme();const pg=$('pageGrid');if(pg){let pageHtml='';for(let p=1;p<=604;p++)pageHtml+='<button class="page-number" data-page="'+p+'" type="button">'+arNum(p)+'</button>';pg.innerHTML=pageHtml}for(let i=1;i<=30;i++)$('juzNumber').add(new Option('الجزء '+arNum(i),i));for(let i=1;i<=240;i++)$('hizbNumber').add(new Option('ربع الحزب '+arNum(i),i));try{surahs=await api('/surah');store.set('surahIndex',surahs)}catch(e){surahs=store.get('surahIndex',[])}if(surahs.length){renderSurahs();const last=store.get('last',{surah:1,ayah:1});await openSurah(last.surah||1,last.ayah||1,false);store.set('last',last)}else{$('surahGrid').innerHTML='<div class="empty-state">افتح الموقع مرة واحدة بالإنترنت ثم نزّل القرآن للاستخدام دون اتصال.</div>'}}
-if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('service-worker.js?v=37',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{});
+if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('service-worker.js?v=38',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{});
 initRemoteAudio();
 init();
 

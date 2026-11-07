@@ -1,5 +1,5 @@
 'use strict';
-const VERSION = 'quran-karim-v37';
+const VERSION = 'quran-karim-v38';
 const SHELL = [
   './', './index.html', './style.css?v=36', './app.js', './manifest.json',
   './icon.svg', './mushaf-calligraphy.jpeg'
@@ -107,19 +107,12 @@ self.addEventListener('fetch', event => {
 
   if (AUDIO_HOSTS.has(url.hostname) || /\.mp3(\?|$)/i.test(url.pathname)) {
     event.respondWith((async () => {
-      const cache = await caches.open(AUDIO_CACHE);
-      // Match by URL without the Range header: the cache stores complete audio files.
-      const key = new Request(request.url, { method: 'GET' });
-      const cached = await cache.match(key);
-      if (cached) return rangedResponse(request, cached);
       try {
-        const response = await fetch(request);
-        if (response.status === 200 || response.type === 'opaque') {
-          await cacheResponse(AUDIO_CACHE, key, response);
-        }
-        return response;
+        // Stream audio immediately; never wait for a full-file cache write.
+        return await fetch(request);
       } catch (_) {
-        return (await cache.match(key)) || Response.error();
+        const key = new Request(request.url, { method: 'GET' });
+        return (await caches.open(AUDIO_CACHE)).match(key) || Response.error();
       }
     })());
   }
