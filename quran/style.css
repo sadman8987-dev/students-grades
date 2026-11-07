@@ -369,3 +369,40 @@ button:focus-visible, input:focus-visible, select:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+
+/* Quranic search: readable Uthmani verses and compact, accessible pagination. */
+.search-panel { max-width: 760px; align-items: stretch; }
+.search-panel input[type="search"] { min-width: 0; font-size: 14px; }
+.search-panel .btn { flex: none; white-space: nowrap; }
+.search-suggestions { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; max-width: 760px; margin: 11px 0 2px; color: #788278; font-size: 11px; }
+.search-suggestions button { padding: 6px 11px; border: 1px solid #e6e2d5; border-radius: 999px; color: #47654f; background: #fffefa; cursor: pointer; font: 11px Cairo, sans-serif; transition: .16s ease; }
+.search-suggestions button:hover { border-color: #c8b47d; color: #20583c; background: #f6f2e6; }
+#searchHelp { margin: 10px 0 13px; line-height: 1.8; }
+.search-summary { display: flex; align-items: center; gap: 6px; margin: 14px 0 10px; color: #778177; font-size: 12px; }
+.search-summary strong { color: #8a6d36; font: 700 20px Amiri, serif; }
+.search-result-list { display: grid; gap: 10px; }
+.result-card.search-result { margin: 0; padding: 17px 19px; border-radius: 15px; background: linear-gradient(145deg, #fffefa, #fbfaf5); box-shadow: 0 4px 14px rgba(39,57,42,.04); }
+.search-result-meta { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: #8c7542; font-size: 11px; }
+.search-result-meta span:first-child { color: #315d42; font-weight: 700; }
+.search-ayah-text { margin: 12px 0 15px !important; color: #27362c; font: 26px/2 'Amiri Quran', Amiri, serif !important; text-align: right; direction: rtl; }
+.search-bismillah { margin: 3px 0 0; color: #93753b; font: 24px/1.8 'Amiri Quran', Amiri, serif; text-align: center; }
+.search-result .btn { padding: 8px 12px; }
+.search-pagination { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 16px 0 4px; color: #777f75; font-size: 12px; }
+.search-pagination .btn { min-width: 86px; padding: 8px 12px; }
+.search-pagination .btn:disabled { opacity: .45; cursor: not-allowed; }
+.search-error { line-height: 2; }
+.search-error .btn { margin-top: 9px; }
+body.theme-dark .result-card.search-result { border-color: #e7e3d7; background: #fffefa; }
+@media (max-width: 650px) {
+  .search-panel { padding: 12px; gap: 7px; }
+  .search-panel input[type="search"] { padding: 10px !important; font-size: 12px; }
+  .search-panel .btn { padding: 9px 11px; font-size: 11px; }
+  .search-suggestions { gap: 6px; }
+  .search-suggestions > span { width: 100%; }
+  .search-suggestions button { padding: 5px 9px; font-size: 10px; }
+  .result-card.search-result { padding: 14px; }
+  .search-ayah-text { font-size: 23px !important; line-height: 2 !important; }
+  .search-pagination { gap: 8px; }
+  .search-pagination .btn { min-width: 74px; padding: 8px; }
+}
