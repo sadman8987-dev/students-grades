@@ -63,7 +63,6 @@ body{background:#f4f8f5;color:#24372c}
 
 .reciter-select{min-width:190px;max-width:250px}
 
-.ayah-actions{margin:8px auto 14px;max-width:520px;padding:12px 14px;border:1px solid #c9dfcf;border-radius:12px;background:#f7fbf8;box-shadow:0 4px 14px #173f2914}
 .ayah-actions strong{display:block;color:#246b43;margin-bottom:8px;font-size:13px}
 .ayah-actions .saved-actions{display:flex;gap:8px;flex-wrap:wrap}
 .ayah-actions button{border:1px solid #d5e6d9;border-radius:8px;padding:7px 12px;background:#eaf4ed;color:#245d3b;font:inherit;cursor:pointer}
@@ -140,22 +139,6 @@ async function api(path){const r=await fetch(API+path);if(!r.ok)throw new Error(
 function normalize(s){return s.normalize('NFD').replace(/[\u064B-\u065F\u0670\u0640]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ؤ/g,'و').replace(/ئ/g,'ي').replace(/ة/g,'ه').trim()}
 function arNum(n){return Number(n).toLocaleString('ar-EG')}
 function showView(name){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));$(name+'View').classList.add('active');
-$('quranText').addEventListener('click',e=>{
- const el=e.target.closest('.ayah');if(!el)return;
- const n=Number(el.dataset.ayah),sn=Number(el.dataset.surah)||activeSurah;
- const a=activeAyahs.find(x=>Number(x.numberInSurah)===n&&(x.surah?.number||sn)===sn)||activeAyahs.find(x=>Number(x.numberInSurah)===n);
- if(!a)return;
- document.getElementById('ayahActions')?.remove();
- const bar=document.createElement('div');bar.id='ayahActions';bar.className='saved-item ayah-actions';
- bar.innerHTML='<strong>سورة '+(a.surah?.name||surahs.find(x=>x.number===sn)?.name||'')+' · الآية '+arNum(n)+'</strong><div class="saved-actions"><button type="button" data-action="fav">♡ حفظ</button><button type="button" data-action="copy">نسخ</button><button type="button" data-action="share">مشاركة</button></div>';
- el.after(bar);
- bar.onclick=async ev=>{const act=ev.target.dataset.action;if(!act)return;
-  if(act==='fav'){saveFavorite({number:a.number,surah:{number:sn,name:a.surah?.name||surahs.find(x=>x.number===sn)?.name||''},numberInSurah:n,text:a.text});ev.target.textContent='تم الحفظ'}
-  if(act==='copy'){try{await navigator.clipboard.writeText(a.text);ev.target.textContent='تم النسخ'}catch{ev.target.textContent='تعذر النسخ'}}
-  if(act==='share'){const txt=a.text+'\n— '+(a.surah?.name||'القرآن الكريم')+'، الآية '+n;try{if(navigator.share)await navigator.share({text:txt});else{await navigator.clipboard.writeText(txt);ev.target.textContent='تم النسخ'}}catch{}}
- };
-});
-document.addEventListener('pointerdown',e=>{if(!e.target.closest('.ayah')&&!e.target.closest('#ayahActions'))document.getElementById('ayahActions')?.remove()},true);
 
 document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.view===name));$('readerView').hidden=true;window.scrollTo({top:document.querySelector('.tabs').offsetTop,behavior:'smooth'})}
 function card(s){return '<button class="surah-card" data-surah="'+s.number+'"><span class="surah-number"><span>'+arNum(s.number)+'</span></span><span><strong>'+s.name+'</strong><small>'+(s.revelationType==='Meccan'?'مكية':'مدنية')+' · '+arNum(s.numberOfAyahs)+' آية</small></span></button>'}
