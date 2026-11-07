@@ -63,6 +63,46 @@ body{background:#f4f8f5;color:#24372c}
 
 .reciter-select{min-width:190px;max-width:250px}
 
+
+/* Quran.com-inspired reading experience: original styling, with verified Uthmani text source. */
+:root{--reader-bg:#fffdf8;--reader-ink:#242b27;--reader-line:#e8e2d5;--reader-accent:#176b48}
+body{background:#f5f6f3;color:#26332b}
+.app-shell{max-width:1120px}
+.reader-view{background:var(--reader-bg);border:1px solid var(--reader-line);border-radius:18px;box-shadow:0 8px 32px #172b1b0b;overflow:hidden;color:var(--reader-ink)}
+.reader-top{padding:22px 24px;background:#fff;border-bottom:1px solid var(--reader-line);display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px}
+.reader-title{text-align:center}
+.reader-title .eyebrow{color:#8b7448;letter-spacing:.02em}
+.reader-title h2{font:700 27px Amiri,serif;color:#214d38;margin:4px 0}
+.reader-title p{margin:0;color:#7d877f;font-size:12px}
+.reader-toolbar{display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;padding:14px 18px;background:#fbfaf6;border-bottom:1px solid var(--reader-line)}
+.reader-toolbar .tool-btn,.reader-toolbar .field{min-height:40px;border-radius:10px}
+.reader-toolbar .tool-btn{background:#fff;border:1px solid #e4e4dc;color:#3e5145}
+.reader-toolbar .tool-highlight{background:#176b48;color:#fff;border-color:#176b48}
+.reciter-select{min-width:210px}
+.audio-panel{margin:16px 22px;padding:15px 18px;border:1px solid #dfe9df;border-radius:14px;background:#f4f8f3}
+.audio-panel audio{width:100%;margin:10px 0}
+.bismillah{margin:22px auto 0;text-align:center;color:#263e30;font:30px/2.1 'Amiri Quran',Amiri,serif}
+.quran-text{max-width:900px;margin:0 auto;padding:36px 46px 48px;background:transparent;color:#252d28;text-align:justify;text-align-last:center;direction:rtl;font-family:'Amiri Quran','Amiri',serif;font-size:clamp(27px,3.1vw,38px);line-height:2.35;letter-spacing:0;word-spacing:1px;unicode-bidi:plaintext}
+.ayah{display:inline;white-space:normal;border:0;border-radius:0;padding:0;margin:0;background:transparent!important;outline:0!important;color:inherit;cursor:default;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.ayah-end{display:inline-flex;vertical-align:middle;align-items:center;justify-content:center;width:1.48em;height:1.48em;margin:0 .12em;color:#94743b;font-family:Amiri,serif;font-size:.58em;line-height:1;border:1px solid #c8ad73;border-radius:50%;background:#fffdf7;position:relative}
+.ayah-end:before{content:"";position:absolute;inset:3px;border:1px solid #ddcda7;border-radius:50%}
+.ayah-end b{font-weight:700;position:relative;z-index:1}
+.sajda-label{font:12px Cairo,sans-serif;color:#8b7040;background:#f6f0e2;border-radius:6px;padding:2px 6px}
+.reader-bottom{display:flex;justify-content:space-between;gap:12px;padding:18px 24px;background:#fbfaf6;border-top:1px solid var(--reader-line)}
+.reader-bottom .btn{min-width:130px}
+.site-footer{color:#78837b}
+@media(max-width:650px){
+ .reader-view{border-radius:13px}
+ .reader-top{padding:15px 12px;gap:8px}
+ .reader-title h2{font-size:23px}
+ .reader-toolbar{justify-content:flex-start;padding:12px;gap:7px}
+ .reader-toolbar .tool-btn{padding:8px 10px;font-size:12px}
+ .reciter-select{min-width:150px;max-width:100%;flex:1}
+ .quran-text{padding:24px 16px 32px;font-size:clamp(25px,7vw,32px);line-height:2.15;word-spacing:0}
+ .bismillah{font-size:27px}
+ .reader-bottom{padding:14px 12px}
+}
+
 </style>
 <title>القرآن الكريم</title>
 </head>
