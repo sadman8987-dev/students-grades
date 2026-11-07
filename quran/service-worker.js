@@ -1,5 +1,5 @@
 'use strict';
-const VERSION = 'quran-karim-v32';
+const VERSION = 'quran-karim-v33';
 const SHELL = [
   './', './index.html', './style.css', './app.js', './manifest.json',
   './icon.svg', './mushaf-calligraphy.jpeg'
@@ -29,6 +29,25 @@ self.addEventListener('activate', event => {
     await self.clients.claim();
   })());
 });
+
+async function rangedResponse(request, response) {
+  const range = request.headers.get('range');
+  if (!range || response.type === 'opaque') return response;
+  const match = /^bytes=(\\d*)-(\\d*)$/.exec(range);
+  if (!match) return response;
+  const bytes = await response.clone().arrayBuffer();
+  const size = bytes.byteLength;
+  let start = match[1] ? Number(match[1]) : 0;
+  let end = match[2] ? Number(match[2]) : size - 1;
+  if (!match[1] && match[2]) start = Math.max(0, size - Number(match[2]));
+  end = Math.min(end, size - 1);
+  if (start >= size || end < start) return new Response(null, { status: 416, headers: { 'Content-Range': 'bytes */' + size } });
+  const headers = new Headers(response.headers);
+  headers.set('Accept-Ranges', 'bytes');
+  headers.set('Content-Range', 'bytes ' + start + '-' + end + '/' + size);
+  headers.set('Content-Length', String(end - start + 1));
+  return new Response(bytes.slice(start, end + 1), { status: 206, statusText: 'Partial Content', headers });
+}
 
 async function cacheResponse(cacheName, request, response) {
   try {
@@ -82,7 +101,7 @@ self.addEventListener('fetch', event => {
       // Match by URL without the Range header: the cache stores complete audio files.
       const key = new Request(request.url, { method: 'GET' });
       const cached = await cache.match(key);
-      if (cached) return cached;
+      if (cached) return rangedResponse(request, cached);
       try {
         const response = await fetch(request);
         if (response.status === 200 || response.type === 'opaque') {
