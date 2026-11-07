@@ -1,0 +1,20 @@
+{
+  "name": "القرآن الكريم | وِرد",
+  "short_name": "وِرد",
+  "description": "مصحف إلكتروني للقراءة والاستماع",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#071b17",
+  "theme_color": "#09251f",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
