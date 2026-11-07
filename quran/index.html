@@ -218,13 +218,12 @@ async function playSurah(){
  audio.pause();audio.dataset.surah=String(activeSurah);audio.dataset.reciter=rid;
  await loadRecitation(activeSurah,0);
 }
-async function advanceRecitation(){
- if($('repeatAudio').checked){const a=$('audioPlayer');a.currentTime=0;try{await a.play()}catch(e){}return}
- if(activeSurah<114){
-  const next=activeSurah+1;await openSurah(next,1);
-  const audio=$('audioPlayer');audio.dataset.surah=String(next);audio.dataset.reciter=$('reciterSelect').value;
-  await loadRecitation(next,0);
- }else{$('listenBtn').textContent='▶ استماع';$('audioLabel').textContent='انتهت تلاوة القرآن الكريم'}
+function advanceRecitation(){
+ const a=$('audioPlayer');
+ if($('repeatAudio').checked){a.currentTime=0;a.play().catch(()=>{});return}
+ a.pause();a.currentTime=0;
+ $('listenBtn').textContent='▶ استماع';
+ $('audioLabel').textContent='انتهت التلاوة';
 }
 function favorites(){return store.get('favorites',[])}
 function saveFavorite(a){const k=a.number;let f=favorites();if(f.some(x=>x.number===k))f=f.filter(x=>x.number!==k);else f.push({number:k,surah:a.surah.number,surahName:a.surah.name,ayah:a.numberInSurah,text:a.text});store.set('favorites',f);renderSaved()}
