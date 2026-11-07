@@ -21,7 +21,7 @@ function nameMatches(stored: string, entered: string) {
 }
 
 const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
-const masterPassword = Deno.env.get("MASTER_PASSWORD") || "2323";
+const masterPassword = Deno.env.get("MASTER_PASSWORD") || "1234";
 
 Deno.serve(async (request) => {
   if (request.method === "OPTIONS") return new Response("ok", { headers: cors });
