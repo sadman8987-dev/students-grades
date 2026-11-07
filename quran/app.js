@@ -19,12 +19,57 @@ function showReader(){document.querySelectorAll('.view').forEach(v=>v.classList.
 async function openSegment(type,n){showReader();$('readerName').textContent=type==='juz'?'الجزء '+arNum(n):'ربع الحزب '+arNum(n);$('readerMeta').textContent='تقسيم المصحف';$('readerSub').textContent='جارٍ تحميل النص';$('quranText').innerHTML='<div class="loading">جارٍ تحميل المقطع…</div>';$('surahBismillah').hidden=true;try{const d=await api('/'+(type==='juz'?'juz':'hizbQuarter')+'/'+n+'/quran-uthmani');activeAyahs=d.ayahs;activeSurah=activeAyahs[0].surah.number;$('quranText').innerHTML=activeAyahs.map(a=>'<span class="ayah" data-ayah="'+a.numberInSurah+'" data-global="'+a.number+'" data-surah="'+a.surah.number+'">'+a.text+' <span class="ayah-end"><b>'+arNum(a.numberInSurah)+'</b></span></span> ').join('');$('readerSub').textContent=activeAyahs.length+' آية · '+activeAyahs[0].surah.name;}catch(e){$('quranText').textContent=e.message}}
 const RECITERS={'ar.alafasy':'مشاري راشد العفاسي','ar.sudais':'عبدالرحمن السديس','ar.mahermuaiqly':'ماهر المعيقلي','ar.husary':'محمود خليل الحصري','ar.abdulbasit':'عبدالباسط عبدالصمد','everyayah-ghamdi':'سعد الغامدي','ar.shuraim':'سعود الشريم'};
 let audioAyahs=[],audioIndex=0;
-function reciterLabel(){return RECITERS[$('reciterSelect').value]||'القارئ المختار'}
+let mp3Reciters=[],selectedMp3Read=null;
+async function initReciterSearch(){
+ const select=$('reciterSelect');
+ const search=document.createElement('input');
+ search.type='search';search.id='reciterSearch';search.className='field reciter-search';
+ search.placeholder='ابحث باسم القارئ…';search.setAttribute('aria-label','ابحث عن قارئ');
+ select.parentNode.insertBefore(search,select);
+ const hint=document.createElement('small');hint.id='reciterCount';hint.className='reciter-count';hint.textContent='جارٍ تحميل القراء…';select.insertAdjacentElement('afterend',hint);
+ try{
+  const response=await fetch('https://www.mp3quran.net/api/v3/reciters?language=ar');
+  if(!response.ok)throw new Error('تعذر تحميل قائمة القراء');
+  const data=await response.json();
+  const flat=[];
+  (data.reciters||[]).forEach(r=>(r.moshaf||[]).forEach(m=>{
+   if(m.server&&m.surah_list)flat.push({id:r.id,name:r.name,readId:m.id,readName:m.name,server:m.server,surahs:m.surah_list.split(',').map(Number)});
+  }));
+  // Keep one complete Hafs/Murattal-style recording per reciter where possible.
+  const unique=[];const seen=new Set();
+  for(const r of flat){if(seen.has(r.id))continue;seen.add(r.id);unique.push(r);if(unique.length===100)break;}
+  mp3Reciters=unique;
+  const render=()=>{
+   const q=normalize(search.value||'');
+   const filtered=mp3Reciters.filter(r=>normalize(r.name+' '+r.readName).includes(q));
+   select.innerHTML='';
+   filtered.forEach(r=>{const o=new Option(r.name+' — '+r.readName,'mp3:'+r.id+':'+r.readId);o.dataset.server=r.server;o.dataset.surahs=r.surahs.join(',');o.dataset.reciter=r.id;select.add(o)});
+   if(!filtered.length)select.add(new Option('لا توجد نتائج مطابقة',''));
+   $('reciterCount').textContent='عرض '+arNum(filtered.length)+' من '+arNum(mp3Reciters.length)+' قارئ';
+   selectedMp3Read=select.selectedOptions[0]?.value.startsWith('mp3:')?select.selectedOptions[0]:null;
+  };
+  search.addEventListener('input',render);render();
+ }catch(err){$('reciterCount').textContent='تعذر تحميل القائمة؛ تحقق من الاتصال.';search.disabled=true;}
+}
+
+function reciterLabel(){const s=$('reciterSelect');return s.value.startsWith('mp3:')?(s.selectedOptions[0]?.textContent||'القارئ المختار'):(RECITERS[s.value]||'القارئ المختار')}
 async function loadRecitation(surahId,startIndex=0){
  const rid=$('reciterSelect').value,audio=$('audioPlayer');
  $('audioPanel').hidden=false;$('audioLabel').textContent=$('readerName').textContent+' · '+reciterLabel();$('listenBtn').textContent='جارٍ تحميل التلاوة…';
- try{const data=await api('/surah/'+surahId+'/'+rid);audioAyahs=data.ayahs||[];audioIndex=startIndex;if(!audioAyahs.length)throw Error('لا توجد ملفات صوتية');await playRecitationAyah()}
- catch(err){$('audioLabel').textContent='تعذر تحميل صوت '+reciterLabel()+'. جرّب قارئًا آخر.';$('listenBtn').textContent='▶ إعادة المحاولة'}
+ try{
+  if(rid.startsWith('mp3:')){
+   const option=$('reciterSelect').selectedOptions[0],available=(option?.dataset.surahs||'').split(',').map(Number);
+   if(!available.includes(Number(surahId)))throw new Error('هذه السورة غير متاحة لهذا القارئ.');
+   const server=option.dataset.server;
+   audioAyahs=[];audioIndex=0;audio.src=server+String(surahId).padStart(3,'0')+'.mp3';
+   audio.playbackRate=Number($('playbackRate').value||1);audio.load();
+   $('audioLabel').textContent=reciterLabel()+' · سورة '+$('readerName').textContent;
+   await audio.play();$('listenBtn').textContent='❚❚ إيقاف / تشغيل';
+   return;
+  }
+  const data=await api('/surah/'+surahId+'/'+rid);audioAyahs=data.ayahs||[];audioIndex=startIndex;if(!audioAyahs.length)throw Error('لا توجد ملفات صوتية');await playRecitationAyah()
+ }catch(err){$('audioLabel').textContent=err.message||('تعذر تحميل صوت '+reciterLabel());$('listenBtn').textContent='▶ إعادة المحاولة'}
+
 }
 async function playRecitationAyah(){
  const audio=$('audioPlayer'),a=audioAyahs[audioIndex];if(!a)return;
@@ -88,4 +133,4 @@ $('openPage').onclick=()=>openPage($('pageNumber').value);$('pageNumber').onkeyd
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;$('installBtn').hidden=false});$('installBtn').onclick=async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$('installBtn').hidden=true};
 async function init(){applyTheme();for(let i=1;i<=30;i++)$('juzNumber').add(new Option('الجزء '+arNum(i),i));for(let i=1;i<=240;i++)$('hizbNumber').add(new Option('ربع الحزب '+arNum(i),i));try{surahs=await api('/surah');renderSurahs();const last=store.get('last',{surah:1,ayah:1});await openSurah(1,1,false);store.set('last',last)}catch(e){$('surahGrid').innerHTML='<div class="empty-state">تعذر تحميل فهرس السور. تحقق من الإنترنت ثم أعد تحميل الصفحة.<br>'+e.message+'</div>'}}
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('service-worker.js').catch(()=>{});
-init();
+initReciterSearch();init();
