@@ -1,7 +1,7 @@
 'use strict';
-const VERSION = 'quran-karim-v36';
+const VERSION = 'quran-karim-v37';
 const SHELL = [
-  './', './index.html', './style.css?v=35', './app.js', './manifest.json',
+  './', './index.html', './style.css?v=36', './app.js', './manifest.json',
   './icon.svg', './mushaf-calligraphy.jpeg'
 ];
 const DATA_CACHE = VERSION + '-data';
@@ -65,6 +65,16 @@ self.addEventListener('fetch', event => {
 
   if (url.origin === self.location.origin) {
     event.respondWith((async () => {
+      // Always prefer fresh HTML/CSS/JS so feature updates are not hidden by an old PWA cache.
+      if (request.mode === 'navigate' || request.destination === 'style' || request.destination === 'script') {
+        try {
+          const response = await fetch(request);
+          if (response.ok) await cacheResponse(VERSION, request, response);
+          return response;
+        } catch (_) {
+          return (await caches.match(request)) || Response.error();
+        }
+      }
       const cached = await caches.match(request);
       if (cached) return cached;
       try {
