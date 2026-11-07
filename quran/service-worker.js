@@ -33,7 +33,7 @@ self.addEventListener('activate', event => {
 async function rangedResponse(request, response) {
   const range = request.headers.get('range');
   if (!range || response.type === 'opaque') return response;
-  const match = /^bytes=(\\d*)-(\\d*)$/.exec(range);
+  const match = /^bytes=(\d*)-(\d*)$/.exec(range);
   if (!match) return response;
   const bytes = await response.clone().arrayBuffer();
   const size = bytes.byteLength;
