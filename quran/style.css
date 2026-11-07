@@ -350,7 +350,7 @@ button:focus-visible, input:focus-visible, select:focus-visible {
   .reader-toolbar { justify-content: center; padding: 10px 8px; gap: 6px; }
   .reader-toolbar .tool-btn { min-height: 37px; padding: 7px 9px; font-size: 11px; }
   .reciter-select { min-width: 140px; max-width: 100%; flex: 1; }
-  .quran-text { padding: 22px 15px 33px; font-size: clamp(25px,7vw,32px); line-height: 2.2; word-spacing: 0; }
+  .quran-text { padding: 22px 15px 33px; font-size:var(--reader-size); line-height: 2.2; word-spacing: 0; }
   .bismillah { font-size: 27px; }
   .reader-bottom { padding: 13px 10px; }
   .reader-bottom .btn { min-width: 0; padding: 9px 11px; }
