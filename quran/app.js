@@ -79,7 +79,7 @@ $('quranText').addEventListener('click',async e=>{
   if(act==='share'){if(navigator.share)await navigator.share({text:a.text+'\n— '+(a.surah?.name||'القرآن الكريم')+'، الآية '+n});else await navigator.clipboard?.writeText(a.text)}
  };
 });
-document.addEventListener('click',e=>{if(!e.target.closest('#quranText')&&!e.target.closest('#audioPanel'))clearAyahSelection()});
+document.addEventListener('pointerdown',e=>{if(!e.target.closest('.ayah')&&!e.target.closest('#ayahActions'))clearAyahSelection()},true);
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>showView(t.dataset.view)));
 $('surahFilter').addEventListener('input',renderSurahs);$('surahSort').addEventListener('change',renderSurahs);$('globalSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){const q=normalize(e.target.value);const s=surahs.find(x=>normalize(x.name).includes(q)||String(x.number)===q);if(s)openSurah(s.number);else{$('verseSearch').value=e.target.value;showView('search');searchQuran()}}});
 $('continueBtn').onclick=()=>{const l=store.get('last',{surah:1,ayah:1});openSurah(l.surah,l.ayah)};$('bookmarksBtn').onclick=()=>{renderSaved();showView('saved')};$('settingsBtn').onclick=()=>$('settingsDialog').showModal();$('readingTheme').onchange=e=>{theme=e.target.value;applyTheme()};$('fontRange').oninput=e=>{fontSize=Number(e.target.value);applyTheme()};$('settingsDialog').addEventListener('close',()=>{theme=$('readingTheme').value;fontSize=Number($('fontRange').value);store.set('theme',theme);store.set('fontSize',fontSize);applyTheme()});
