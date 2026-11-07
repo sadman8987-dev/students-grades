@@ -21,7 +21,7 @@
 
    راجع الملف الناتج ثم نفّذه في SQL Editor. لا ترفع `grades-import.sql` إلى مستودع عام.
 3. انشر `supabase/functions/student-result/index.ts` كـ Edge Function.
-4. عيّن secret باسم `MASTER_PASSWORD` وقيمته `1234` من إعدادات Edge Function. لا تضع service role key في الواجهة.
+4. عيّن secret باسم `MASTER_PASSWORD` وقيمته `2323` من إعدادات Edge Function. لا تضع service role key في الواجهة.
 5. فعّل GitHub Pages من فرع `main` ومجلد الجذر.
 
 ## مراجعة البيانات المرفقة
