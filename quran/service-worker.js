@@ -1,5 +1,5 @@
 'use strict';
-const VERSION = 'quran-karim-v34';
+const VERSION = 'quran-karim-v35';
 const SHELL = [
   './', './index.html', './style.css?v=34', './app.js', './manifest.json',
   './icon.svg', './mushaf-calligraphy.jpeg'
@@ -79,7 +79,7 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  if (url.hostname === 'api.alquran.cloud') {
+  if (url.hostname === 'api.alquran.cloud' || url.hostname === 'www.mp3quran.net' || url.hostname === 'mp3quran.net') {
     event.respondWith((async () => {
       const cache = await caches.open(DATA_CACHE);
       const cached = await cache.match(request);
