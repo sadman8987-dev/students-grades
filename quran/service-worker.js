@@ -1,5 +1,5 @@
 'use strict';
-const VERSION = 'quran-karim-v31';
+const VERSION = 'quran-karim-v32';
 const SHELL = [
   './', './index.html', './style.css', './app.js', './manifest.json',
   './icon.svg', './mushaf-calligraphy.jpeg'
@@ -8,6 +8,7 @@ const DATA_CACHE = VERSION + '-data';
 const AUDIO_CACHE = VERSION + '-audio';
 const AUDIO_HOSTS = new Set([
   'api.alquran.cloud',
+  'cdn.mp3quran.net',
   'everyayah.com',
   'www.everyayah.com',
   'server6.mp3quran.net', 'server7.mp3quran.net',
