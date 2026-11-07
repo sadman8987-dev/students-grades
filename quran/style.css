@@ -279,6 +279,23 @@ button:focus-visible, input:focus-visible, select:focus-visible {
 .sajda-label { color: #8b7040; background: #f6f0e2; }
 .reader-bottom { border-top-color: #e9e3d5; background: #faf9f3; }
 .reader-bottom .btn-outline { color: #42634d; border-color: #d9dfd4; }
+.tafsir-panel { max-width: 930px; margin: 0 auto 24px; padding: 20px clamp(16px, 4vw, 34px); border: 1px solid #e5dfcf; border-radius: 17px; background: linear-gradient(145deg, #fffefa, #f8f7ef); box-shadow: 0 8px 25px rgba(39,57,42,.06); }
+.tafsir-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding-bottom: 13px; border-bottom: 1px solid #ebe6d9; }
+.tafsir-heading h3 { margin: 3px 0 0; color: #24583e; font: 700 26px/1.3 Amiri, serif; }
+.tafsir-heading small { color: #8a8878; font-size: 10px; }
+.tafsir-item { padding: 14px 0; border-bottom: 1px solid #eee9de; }
+.tafsir-item:last-child { border-bottom: 0; padding-bottom: 0; }
+.tafsir-number { display: inline-block; margin-bottom: 5px; padding: 3px 9px; border-radius: 8px; color: #82652c; background: #f6f0e2; font-size: 11px; font-weight: 700; }
+.tafsir-item p { margin: 0; color: #3f493f; font: 17px/2 'Amiri', serif; }
+.theme-dark .tafsir-panel { border-color: #345845; background: #153126; }
+.theme-dark .tafsir-heading { border-bottom-color: #345845; }
+.theme-dark .tafsir-heading h3, .theme-dark .tafsir-item p { color: #eee9dc; }
+.theme-dark .tafsir-item { border-bottom-color: #345845; }
+.theme-dark .tafsir-number { color: #e2c982; background: #213d2e; }
+.theme-cream .tafsir-panel { background: #eee3cc; border-color: #d7c49b; }
+.theme-cream .tafsir-heading { border-bottom-color: #d7c49b; }
+.theme-cream .tafsir-heading h3, .theme-cream .tafsir-item p { color: #403527; }
+.theme-cream .tafsir-item { border-bottom-color: #d7c49b; }
 
 .saved-item { border-color: #e7e3d7; border-radius: 13px; background: #fffefa; }
 .saved-item strong { color: #34523d; }
@@ -351,6 +368,10 @@ button:focus-visible, input:focus-visible, select:focus-visible {
   .reader-toolbar .tool-btn { min-height: 37px; padding: 7px 9px; font-size: 11px; }
   .reciter-select { min-width: 140px; max-width: 100%; flex: 1; }
   .quran-text { padding: 22px 15px 33px; font-size:var(--reader-size); line-height: 2.2; word-spacing: 0; }
+  .tafsir-panel { margin: 0 8px 18px; padding: 16px 14px; }
+  .tafsir-heading { align-items: flex-start; flex-direction: column; gap: 4px; }
+  .tafsir-heading h3 { font-size: 23px; }
+  .tafsir-item p { font-size: 16px; line-height: 1.9; }
   .bismillah { font-size: 27px; }
   .reader-bottom { padding: 13px 10px; }
   .reader-bottom .btn { min-width: 0; padding: 9px 11px; }
