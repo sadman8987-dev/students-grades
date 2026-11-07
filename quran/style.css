@@ -517,3 +517,6 @@ body.site-dark .quick-buttons .icon-btn:hover { border-color: #9b8754; backgroun
 
 body.theme-dark .reader-top .icon-btn { border-color: #365a46; color: #eee9dc; background: #1c3a2b; }
 body.theme-dark .reader-top .icon-btn:hover { border-color: #c2a66a; background: #243e2e; }
+
+/* Searchable reciter directory */
+.reciter-search{min-width:190px;max-width:240px;flex:1;padding:8px 11px!important;font:12px Cairo,sans-serif}.reciter-count{width:100%;text-align:center;color:#78877c;font-size:10px;flex-basis:100%;margin-top:-4px}body.site-dark .reciter-search{border-color:#354a3b;background:#1b2a21;color:#e8eee7}body.site-dark .reciter-count{color:#a5b3a7}@media(max-width:650px){.reciter-search{min-width:140px;max-width:100%;flex:1}.reciter-count{font-size:9px}}
