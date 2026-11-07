@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#09251f"><meta name="description" content="مصحف إلكتروني متكامل للقراءة والاستماع والبحث في القرآن الكريم">
+<meta name="theme-color" content="#218756"><meta name="description" content="مصحف إلكتروني متكامل للقراءة والاستماع والبحث في القرآن الكريم">
 <meta name="google" content="notranslate"><meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,6 +49,14 @@ body{background:#f4f8f5;color:#24372c}
 @media(max-width:560px){.surah-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.reference-features{padding:14px}.reference-intro h2{font-size:24px}.feature-link{padding:10px;gap:8px}.feature-icon{width:34px;height:34px}}
 @media(max-width:390px){.surah-grid{grid-template-columns:1fr}}
 
+
+.page-index-title{font:700 20px Amiri;color:#225f3c;margin:22px 0 4px}
+.page-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;margin-top:12px}
+.page-number{border:1px solid #dce9df;border-radius:8px;background:#f7fbf8;color:#315b40;padding:8px 3px;font:12px Cairo;cursor:pointer}
+.page-number:hover,.page-number:focus{background:#218756;color:#fff;border-color:#218756}
+@media(max-width:700px){.page-grid{grid-template-columns:repeat(6,minmax(0,1fr));gap:5px}.page-number{padding:7px 2px;font-size:11px}}
+@media(max-width:390px){.page-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+
 </style>
 <title>المصحف الشريف | وِرد</title>
 </head>
@@ -83,7 +91,7 @@ body{background:#f4f8f5;color:#24372c}
  </section>
  <section id="pagesView" class="view">
   <div class="section-heading"><div><span class="eyebrow">مصحف المدينة</span><h2>التنقل بالصفحات</h2></div><span class="muted">٦٠٤ صفحات</span></div>
-  <div class="jump-card"><label for="pageNumber">رقم الصفحة</label><div class="jump-controls"><input id="pageNumber" class="field" type="number" min="1" max="604" value="1"><button id="openPage" class="btn btn-gold">اذهب للصفحة</button></div><div class="quick-numbers"><button data-page="1">الفاتحة</button><button data-page="2">البقرة</button><button data-page="142">الأعراف</button><button data-page="262">الكهف</button><button data-page="502">يس</button><button data-page="582">النبأ</button></div></div>
+  <div class="jump-card"><label for="pageNumber">رقم الصفحة</label><div class="jump-controls"><input id="pageNumber" class="field" type="number" min="1" max="604" value="1"><button id="openPage" class="btn btn-gold">اذهب للصفحة</button></div><div class="quick-numbers"><button data-page="1">الفاتحة</button><button data-page="2">البقرة</button><button data-page="142">الأعراف</button><button data-page="262">الكهف</button><button data-page="502">يس</button><button data-page="582">النبأ</button></div><h3 class="page-index-title">فهرس صفحات المصحف</h3><p class="muted small">اختر رقم الصفحة للانتقال إليها مباشرة.</p><div id="pageGrid" class="page-grid" aria-label="فهرس الصفحات"></div></div>
  </section>
  <section id="juzView" class="view">
   <div class="section-heading"><div><span class="eyebrow">تقسيم المصحف</span><h2>الأجزاء والأحزاب</h2></div></div>
@@ -200,7 +208,7 @@ $('continueBtn').onclick=()=>{const l=store.get('last',{surah:1,ayah:1});openSur
 $('fontUp').onclick=()=>{fontSize=Math.min(42,fontSize+2);applyTheme();store.set('fontSize',fontSize)};$('fontDown').onclick=()=>{fontSize=Math.max(22,fontSize-2);applyTheme();store.set('fontSize',fontSize)};$('themeBtn').onclick=()=>{theme=theme==='dark'?'cream':theme==='cream'?'light':'dark';store.set('theme',theme);applyTheme()};$('listenBtn').onclick=playSurah;$('closeAudio').onclick=()=>{$('audioPlayer').pause();$('audioPanel').hidden=true};$('reciterSelect').onchange=()=>{const a=$('audioPlayer');a.pause();a.removeAttribute('src');a.load();audioAyahs=[];a.dataset.surah='';$('listenBtn').textContent='▶ استماع'};$('playbackRate').onchange=e=>$('audioPlayer').playbackRate=Number(e.target.value);$('audioPlayer').addEventListener('ended',()=>{const a=$('audioPlayer');advanceRecitation()});$('backBtn').onclick=()=>{ $('readerView').hidden=true;showView('home')};$('prevSurah').onclick=()=>openSurah(Math.max(1,activeSurah-1));$('nextSurah').onclick=()=>openSurah(Math.min(114,activeSurah+1));$('surahFavBtn').onclick=()=>{let s=store.get('surahs',[]);s=s.includes(activeSurah)?s.filter(x=>x!==activeSurah):[...s,activeSurah];store.set('surahs',s);$('surahFavBtn').textContent=s.includes(activeSurah)?'♥':'♡'};
 $('openPage').onclick=()=>openPage($('pageNumber').value);$('pageNumber').onkeydown=e=>{if(e.key==='Enter')openPage(e.target.value)};$('openJuz').onclick=()=>openSegment('juz',$('juzNumber').value);$('openHizb').onclick=()=>openSegment('hizb',$('hizbNumber').value);$('runSearch').onclick=searchQuran;$('verseSearch').onkeydown=e=>{if(e.key==='Enter')searchQuran()};$('downloadQuran').onclick=downloadAll;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstall=e;$('installBtn').hidden=false});$('installBtn').onclick=async()=>{if(!deferredInstall)return;deferredInstall.prompt();await deferredInstall.userChoice;deferredInstall=null;$('installBtn').hidden=true};
-async function init(){applyTheme();for(let i=1;i<=30;i++)$('juzNumber').add(new Option('الجزء '+arNum(i),i));for(let i=1;i<=240;i++)$('hizbNumber').add(new Option('ربع الحزب '+arNum(i),i));try{surahs=await api('/surah');renderSurahs();const last=store.get('last',{surah:1,ayah:1});await openSurah(last.surah,last.ayah)}catch(e){$('surahGrid').innerHTML='<div class="empty-state">تعذر تحميل فهرس السور. تحقق من الإنترنت ثم أعد تحميل الصفحة.<br>'+e.message+'</div>'}}
+async function init(){applyTheme();const pg=$('pageGrid');if(pg){let pageHtml='';for(let p=1;p<=604;p++)pageHtml+='<button class="page-number" data-page="'+p+'" type="button">'+arNum(p)+'</button>';pg.innerHTML=pageHtml}for(let i=1;i<=30;i++)$('juzNumber').add(new Option('الجزء '+arNum(i),i));for(let i=1;i<=240;i++)$('hizbNumber').add(new Option('ربع الحزب '+arNum(i),i));try{surahs=await api('/surah');renderSurahs();const last=store.get('last',{surah:1,ayah:1});await openSurah(last.surah,last.ayah)}catch(e){$('surahGrid').innerHTML='<div class="empty-state">تعذر تحميل فهرس السور. تحقق من الإنترنت ثم أعد تحميل الصفحة.<br>'+e.message+'</div>'}}
 if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('service-worker.js').catch(()=>{});
 init();
 
