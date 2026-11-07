@@ -1,5 +1,5 @@
 'use strict';
-const VERSION = 'quran-karim-v33';
+const VERSION = 'quran-karim-v34';
 const SHELL = [
   './', './index.html', './style.css', './app.js', './manifest.json',
   './icon.svg', './mushaf-calligraphy.jpeg'

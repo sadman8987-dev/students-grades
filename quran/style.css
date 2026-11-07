@@ -411,3 +411,109 @@ body.theme-dark .result-card.search-result { border-color: #e7e3d7; background: 
 /* User-supplied calligraphy shown as a distinct logo above the brand label. */
 .hero-calligraphy { position:relative; z-index:1; display:block; width:108px; height:108px; object-fit:contain; margin:0 auto 13px; padding:3px; border:1px solid #e5d2a4; border-radius:20px; background:#fff; box-shadow:0 8px 22px rgba(10,44,28,.16); }
 @media(max-width:560px) { .hero-calligraphy { width:92px; height:92px; margin-bottom:11px; border-radius:17px; } }
+
+
+/* Whole-site dark mode; the reader's independent paper/ink preference stays intact. */
+body.site-dark {
+  color-scheme: dark;
+  --bg: #101914;
+  --panel: #17241c;
+  --panel2: #202f25;
+  --line: #354a3b;
+  --text: #e8eee7;
+  --muted: #a5b3a7;
+  --green: #91c49f;
+  background: radial-gradient(ellipse at 50% 0, rgba(82, 125, 91, .13), transparent 38rem), #101914;
+  color: #e8eee7;
+}
+body.site-dark .search-box,
+body.site-dark .quick-buttons .icon-btn,
+body.site-dark .reference-features,
+body.site-dark .reference-stats span,
+body.site-dark .feature-link,
+body.site-dark .tabs,
+body.site-dark .surah-card,
+body.site-dark .jump-card,
+body.site-dark .search-panel,
+body.site-dark .result-card,
+body.site-dark .saved-item,
+body.site-dark .modal {
+  border-color: #354a3b;
+  background: #17241c;
+  color: #e8eee7;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .16);
+}
+body.site-dark .reference-features { background: linear-gradient(135deg, #17241c, #1a2a20); }
+body.site-dark .search-box input,
+body.site-dark .app-shell > .view .field,
+body.site-dark .modal .field,
+body.site-dark .search-panel input { color: #e8eee7; }
+body.site-dark .search-box input::placeholder,
+body.site-dark .app-shell > .view .field::placeholder,
+body.site-dark .search-panel input::placeholder { color: #98a99b; }
+body.site-dark .reference-intro h2,
+body.site-dark .section-heading h2 { color: #e5eadf; }
+body.site-dark .reference-intro p,
+body.site-dark .reference-stats small,
+body.site-dark .feature-link small,
+body.site-dark .section-heading > .muted,
+body.site-dark .surah-card small,
+body.site-dark .loading,
+body.site-dark .empty-state,
+body.site-dark .search-suggestions,
+body.site-dark .search-summary,
+body.site-dark .site-footer { color: #a5b3a7; }
+body.site-dark .reference-stats b,
+body.site-dark .feature-icon,
+body.site-dark .surah-number { color: #d3bb7b; }
+body.site-dark .reference-stats span { background: #1d2c22; }
+body.site-dark .feature-link { background: #19271f; }
+body.site-dark .feature-link:hover { border-color: #8c7746; background: #213329; }
+body.site-dark .feature-icon { background: #263a2c; }
+body.site-dark .feature-link i { color: #d3bb7b; }
+body.site-dark .tabs { border-color: #354a3b; background: #17241c; }
+body.site-dark .tab { color: #b1beb3; }
+body.site-dark .tab:hover { color: #e5eadf; background: #223329; }
+body.site-dark .tab.active { border-color: #75643d; color: #ead49a; background: #2b3426; }
+body.site-dark .quick-buttons .icon-btn { color: #e8eee7; }
+body.site-dark .app-shell > .view .field,
+body.site-dark .quick-tools .search-box,
+body.site-dark .modal .field { border-color: #354a3b; background: #1b2a21; }
+body.site-dark .surah-card { background: linear-gradient(145deg, #1b2a21, #16231b); }
+body.site-dark .surah-card:hover,
+body.site-dark .surah-card:focus { border-color: #9b8754; box-shadow: 0 8px 20px rgba(0, 0, 0, .2); }
+body.site-dark .surah-card strong { color: #e8eee7; }
+body.site-dark .surah-number { border-color: #75643d; background: #263329; }
+body.site-dark .jump-card label { color: #d3bb7b; }
+body.site-dark .quick-numbers button,
+body.site-dark .saved-actions button,
+body.site-dark .page-number,
+body.site-dark .search-suggestions button {
+  border-color: #354a3b;
+  color: #dce6dc;
+  background: #202f25;
+}
+body.site-dark .quick-numbers button:hover,
+body.site-dark .saved-actions button:hover,
+body.site-dark .page-number:hover,
+body.site-dark .page-number:focus,
+body.site-dark .search-suggestions button:hover {
+  border-color: #9b8754;
+  color: #f2e1b6;
+  background: #2b3b2f;
+}
+body.site-dark .page-number { color: #c8d3c8; }
+body.site-dark .search-result-meta,
+body.site-dark .search-result-meta span:first-child { color: #d3bb7b; }
+body.site-dark .search-ayah-text,
+body.site-dark .result-card p { color: #e8eee7; }
+body.site-dark .result-card.search-result { border-color: #354a3b; background: #1a2920; }
+body.site-dark .modal-head h2 { color: #dec58b; }
+body.site-dark .modal label { color: #b6c1b7; }
+body.site-dark .site-footer { border-top-color: #354a3b; }
+body.site-dark .site-footer > span { color: #d3bb7b; }
+.theme-icon { font-size: 16px !important; }
+body.site-dark .quick-buttons .icon-btn:hover { border-color: #9b8754; background: #223329; }
+
+body.theme-dark .reader-top .icon-btn { border-color: #365a46; color: #eee9dc; background: #1c3a2b; }
+body.theme-dark .reader-top .icon-btn:hover { border-color: #c2a66a; background: #243e2e; }
