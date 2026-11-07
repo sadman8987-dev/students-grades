@@ -1,6 +1,6 @@
 'use strict';
-const VERSION='quran-karim-v26';
-const SHELL=['./','./index.html','./style.css','./app.js','./manifest.json','./icon.svg'];
+const VERSION='quran-karim-v27';
+const SHELL=['./','./index.html','./style.css','./app.js','./manifest.json','./icon.svg','./mushaf-calligraphy.jpeg'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(VERSION).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==VERSION).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{
